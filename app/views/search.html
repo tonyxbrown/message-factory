@@ -1,0 +1,78 @@
+
+<div class="search-top-container">
+  <h2>Search Purchase Orders</h2>
+
+  <div class="search-container">
+
+    <!--<form name="searchForm" ng-controller="SearchCtrl">-->
+      <!--<select ng-model="selectedOption" ng-options="option.name for option in options">-->
+      <!--</select>-->
+      <!--<input type="text" />-->
+      <!--<input type="submit" ng-click="search()" value="Search" class="po-button" />-->
+    <!--</form>-->
+
+
+    <div class="table-container" ng-controller="SearchCtrl as sc">
+      <table st-pipe="sc.callServer" st-table="sc.poCollection" class="table table-striped">
+        <thead>
+        <tr>
+          <th st-sort="po">Po</th>
+          <th st-sort="project">Project</th>
+          <th st-sort="vendor">Vendor</th>
+          <th st-sort="customer">Customer</th>
+          <th st-sort="total">Total</th>
+          <th st-sort="expected">Expected</th>
+          <th st-sort="approved">Approved</th>
+          <th st-sort="status">Status</th>
+        </tr>
+        <tr class="table-search-row">
+          <th><input st-search="po" placeholder="search for po number" type="search" /></th>
+          <th><input st-search="project" placeholder="search for project" type="search" /></th>
+          <th><input st-search="vendor" placeholder="search for customer" type="search" /></th>
+          <th><input st-search="customer" placeholder="search for vendor" type="search" /></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in sc.poCollection" class="row-highlight">
+          <td ng-click="selectRow({{row.po}})">{{row.po}}</td>
+          <td ng-click="selectRow({{row.po}})">{{row.project}}</td>
+          <td ng-click="selectRow({{row.po}})">{{row.vendor}}</td>
+          <td ng-click="selectRow({{row.po}})">{{row.customer}}</td>
+          <td ng-click="selectRow({{row.po}})">{{row.total | currency}}</td>
+          <td ng-click="selectRow({{row.po}})">{{row.expected | date}}</td>
+          <td>
+            <a href="" data-toggle="modal" data-target="#progressModal" data-po="{{row.po}}">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{row.approvedPercent}}" ng-class="getApprovedClass(row.status)" aria-valuemin="0" aria-valuemax="100" style="width: {{row.approvedPercent}}%;"></div>
+              </div>
+            </a>
+          </td>
+          <td>{{row.status}}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td colspan="8" class="text-center" st-pagination="" st-items-by-page="7"></td>
+        </tr>
+        <tr ng-hide="sc.poCollection.length"><td>No Records</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" ng-click="closeProgressModal()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title progress-modal-title" id="progressModalLabel">Approval Progress History</h4>
+          </div>
+          <div class="progress-container"></div>
+          <div class="modal-footer">
+            <button ng-click="closeProgressModal()" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

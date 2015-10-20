@@ -1,0 +1,106 @@
+
+<!--
+  Smart Table notes:
+  - sorting is done by ascending, descending, then original order
+  - can skip original order by setting st-skip-natural="true" on a th
+  - can set a default sort with st-sort-default="true" or "reverse" on one of these th elements
+-->
+
+<div class="table-container" ng-controller="AllCtrl">
+  <table st-table="poCollection" class="table table-striped">
+    <thead>
+    <tr>
+      <th st-sort="po">Po</th>
+      <th st-sort="project">Project</th>
+      <th st-sort="vendor">Vendor</th>
+      <th st-sort="customer">Customer</th>
+      <th st-sort="total">Total</th>
+      <th st-sort="expected">Expected</th>
+      <th st-sort="approved">Approved</th>
+      <th>Decision</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in poCollection" class="row-highlight" ng-swipe-left="showDecision = true" ng-class="(showDecision==true) ? 'slide-left' : ''">
+      <td ng-click="selectRow({{row.po}})">{{row.po}}</td>
+      <td ng-click="selectRow({{row.po}})">{{row.project}}</td>
+      <td ng-click="selectRow({{row.po}})">{{row.vendor}}</td>
+      <td ng-click="selectRow({{row.po}})">{{row.customer}}</td>
+      <td ng-click="selectRow({{row.po}})">{{row.total | currency}}</td>
+      <td>{{row.expected | date}}</td>
+      <td>
+        <a href="" data-toggle="modal" data-target="#progressModal" data-po="{{row.po}}">
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{row.approvedPercent}}" ng-class="getApprovedClass(row.status)" aria-valuemin="0" aria-valuemax="100" style="width: {{row.approvedPercent}}%;"></div>
+          </div>
+        </a>
+      </td>
+      <td class="decision-row">
+        <span ng-show="user_type !== 'buyer'">
+          <a class="approve-icon" ng-show="user_type !== 'cfo'" href="" data-toggle="modal" data-target="#myModal" data-decision="Approve" data-po="{{row.po}}">
+            <img src="images/button_decision_approved.png">
+          </a>
+          <span ng-show="user_type === 'cfo'" class="is-cfo">
+            <a class="pause-icon" ng-show="!row.isPaused" href="" ng-click="pausePO(row.po)">
+              <img src="images/button_decision_pause.png">
+            </a>
+            <a class="play-icon" ng-show="row.isPaused" href="" ng-click="playPO(row.po)">
+              <img src="images/button_decision_play.png">
+            </a>
+          </span>
+          <a class="decline-icon" href="" data-toggle="modal" data-target="#myModal" data-decision="Decline" data-po="{{row.po}}">
+            <img src="images/button_decision_declined.png">
+          </a>
+        </span>
+        <a class="receive-icon" ng-show="user_type === 'buyer'" href="" ng-click="receivePO(row.po)">
+          <!--<button class="po-button">Receive</button>-->
+          <img src="images/button_decision_received.png">
+        </a>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td colspan="8" class="text-center">
+        <div st-pagination="" st-items-by-page="numPerPage" st-displayed-pages="7"></div>
+      </td>
+    </tr>
+    <tr ng-hide="poCollection.length"><td>No Records</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="closeModal()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        </div>
+        <form class="modal-body form-group">
+          <textarea ng-model="commentText" type="text" aria-describedby="helpBlock" class="form-control" rows="2"></textarea>
+          <span id="helpBlock" class="help-block"><i>Name</i> and <i>Timestamp</i> will be automatically added</span>
+        </form>
+        <div class="modal-footer">
+          <button ng-click="closeModal()" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button ng-click="saveComments()" type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="closeProgressModal()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title progress-modal-title" id="progressModalLabel">Approval Progress History</h4>
+        </div>
+        <div class="progress-container"></div>
+        <div class="modal-footer">
+          <button ng-click="closeProgressModal()" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
