@@ -1,8 +1,42 @@
 
 { "results":
-  [ { "_id": '5626b39db0f964e9c189be99',
-    "msgCode": 123456,
-    "message": 'hello world!' } ],
+  [
+    {
+      "_id": "5626b39db0f964e9c189be99",
+      "msgCode": 10001,
+      "message": "No Records Returned",
+      "messageLevel": "Info",
+      "appName": "PDB"
+    },
+    {
+      "_id": "5626b39db0f964e9c189be99",
+      "msgCode": 10002,
+      "message": "API Request Error",
+      "messageLevel": "Error",
+      "appName": "PDB"
+    },
+    {
+      "_id": "5626b39db0f964e9c189be99",
+      "msgCode": 10003,
+      "message": "Part Number cannot be found",
+      "messageLevel": "Error",
+      "appName": "PDB"
+    },
+    {
+      "_id": "5626b39db0f964e9c189be99",
+      "msgCode": 10004,
+      "message": "PO Number cannot be found",
+      "messageLevel": "Error",
+      "appName": "PDB"
+    },
+    {
+      "_id": "5626b39db0f964e9c189be99",
+      "msgCode": 10005,
+      "message": "An unknown error has occurred",
+      "messageLevel": "Error",
+      "appName": "PDB"
+    }
+  ],
   "currentPage": 1,
   "totalPages": 1
 }

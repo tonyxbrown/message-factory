@@ -58,6 +58,64 @@ angular.module('messageFactoryApp')
       },
 
       /**
+       * @name getAppNames
+       * @memberof MFAPIService
+       * @returns {Function|promise}
+       * @description Main method to retrieve all available app names
+       */
+      getAppNames: function() {
+        var deferred = $q.defer();
+
+        var req = {
+          method: 'GET',
+          url: config_backend.base_url + config_backend.mf_appnames_api
+        };
+
+        $http(req).success(function(result) {
+          deferred.resolve({
+            data: result
+          });
+        }).error(function(err) {
+          console.error("error with API request:",err);
+          deferred.resolve({
+            data: null,
+            error: "API Request Error"
+          });
+        });
+
+        return deferred.promise;
+      },
+
+      /**
+       * @name getLanguages
+       * @memberof MFAPIService
+       * @returns {Function|promise}
+       * @description Main method to retrieve all available languages
+       */
+      getLanguages: function() {
+        var deferred = $q.defer();
+
+        var req = {
+          method: 'GET',
+          url: config_backend.base_url + config_backend.languages_api
+        };
+
+        $http(req).success(function(result) {
+          deferred.resolve({
+            data: result
+          });
+        }).error(function(err) {
+          console.error("error with API request:",err);
+          deferred.resolve({
+            data: null,
+            error: "API Request Error"
+          });
+        });
+
+        return deferred.promise;
+      },
+
+      /**
        * @name createMessages
        * @memberof MFAPIService
        * @param start

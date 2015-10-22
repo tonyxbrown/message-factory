@@ -2,12 +2,17 @@
 
 .search-container {
   height: 100%;
-  width: 1190px;
+  width: 100%;
   min-height: 700px;
   min-width: 700px;
   background-color: #fff;
+  border-top: solid 2px #1e89b1;
+
+  padding-left: 15px;
+  padding-top: 15px;
+
   @media @tablet {
-    width: 990px;
+    width: 100%;
     min-height: 500px;
     min-width: 500px;
   }
@@ -18,7 +23,6 @@
     margin-right: 0;
     padding-left: 5px;
     padding-right: 8px;
-    background-color: transparent;
   }
 
   h2 {
@@ -27,34 +31,71 @@
     }
   }
 
+  h3 {
+    margin-bottom: 0px;
+  }
+
   select {
-    width: 84px;
-    height: 18px;
-    margin-bottom: 15px;
+    display: block;
+    -webkit-appearance: none;
+    background-color: #fff;
+    border-color: #cccccc;
+    border-width: 1px;
+    background: url(../images/dropdown_arrow.png) no-repeat right;
+    background-position: right 8px top 6px;
+    color: #000;
+    width: 182px;
+    height: 19px;
+    padding-left: 5px;
     font-size: 12px;
-    border-style: solid;
-    border-color: lightgrey;
-    border: 0;
-    outline: 1px solid lightgrey;
-    outline-offset: -1px;
-    background-color: white;
+    border-radius: 0px;
+    padding-top: 2px;
+    @media @mobile {
+      background-position: right 10px top 10px;
+      width: 100%;
+      height: 26px;
+      padding-top: 6px;
+    }
   }
 
   input {
     width: 182px;
     height: 19px;
-    margin-bottom: 15px;
     padding-left: 5px;
-    font-size: 8px;
+    padding-top: 3px;
+    font-size: 12px;
     border-style: solid;
     border-color: lightgrey;
     border-width: 1px;
 
+    @media @mobile {
+      width: 100%;
+    }
+
     &.po-button {
-      width: 36px;
-      height: 14px;
+      width: 90px;
+      height: 20px;
       border: none;
     }
+  }
+
+  textarea {
+    width: 382px;
+    height: 57px;
+    padding-left: 5px;
+    font-size: 12px;
+    border-style: solid;
+    border-color: lightgrey;
+    border-width: 1px;
+    margin-bottom: -8px;
+    @media @mobile {
+      width: 100%;
+    }
+  }
+
+  .instruction-text {
+    display: block;
+    margin-top: 5px;
   }
 
   td {

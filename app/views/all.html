@@ -21,9 +21,9 @@
     <tr ng-repeat="row in messages" class="row-highlight">
       <td ng-click="selectRow({{row.msgCode}})">{{row.msgCode}}</td>
       <td ng-click="selectRow({{row.msgCode}})">{{row.appName}}</td>
-      <td ng-click="selectRow({{row.msgCode}})">{{row.messageInternal}}</td>
+      <td ng-click="selectRow({{row.msgCode}})">{{row.message}}</td>
       <td ng-click="selectRow({{row.msgCode}})">{{row.messageLevel}}</td>
-      <td ng-click="selectRow({{row.msgCode}})">{{row.language}}</td>
+      <td ng-click="selectRow({{row.msgCode}})"><span ng-show="row.msgCode">{{(row.language) ? row.language : "En"}}</span></td>
     </tr>
     </tbody>
     <tfoot>
