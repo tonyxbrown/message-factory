@@ -1,0 +1,8 @@
+
+{ "results":
+  [ { "_id": '5626b39db0f964e9c189be99',
+    "msgCode": 123456,
+    "message": 'hello world!' } ],
+  "currentPage": 1,
+  "totalPages": 1
+}

@@ -27,14 +27,11 @@ angular
   })
   .constant('config_backend', {
     //'base_url': 'canned_data/',
-    //'item_search_api': 'purchase_orders.json',
-    //'po_search_api': 'purchase_orders.json'
-    'base_url': 'http://wet-stage/purchasingdatabasews/api/',
-    'item_search_api': 'purchase/',
-    'item_search_api2': 'purchase2/',
-    'po_search_api': 'purchaseorder/',
-    'item_detail_api': 'part/',
-    'po_detail_api': 'purchase/purchaseorder/'
+    //'mf_api': 'all_messages.json',
+    //'mf_admin_api': 'purchase_orders.json'
+    'base_url': 'http://qa1.wetdesign.com:1000/',
+    'mf_api': 'mf',
+    'mf_admin_api': 'admin/createMessages'
   })
 /**
  * @ngdoc Controller

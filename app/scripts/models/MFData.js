@@ -3,67 +3,47 @@
 angular.module('messageFactoryApp')
   /**
    * @ngdoc Service
-   * @name POAPIService
-   * @description POAPIService contains api calls for item search, full item detail, and full po detail
+   * @name MFAPIService
+   * @description MFAPIService contains api calls for item search, full item detail, and full po detail
    */
-  .service('POAPIService', ['$q', '$http', 'POFactory', 'config_backend', function($q, $http, POFactory, config_backend) {
+  .service('MFAPIService', ['$q', '$http', 'MFFactory', 'config_backend', function($q, $http, MFFactory, config_backend) {
     return {
       /**
-       * @name getPurchases
-       * @memberof POAPIService
+       * @name getMessages
+       * @memberof MFAPIService
        * @param start
        * @param number
        * @param params
        * @returns {Function|promise}
-       * @description Main search method to retrieve all items according to global search input and filter input
+       * @description Main method to retrieve all items
        */
-      getPurchases: function(start, number, params) {
+      getMessages: function(start, number, params) {
         var deferred = $q.defer();
-        // parse params search terms and fields into url params
-        var searchtext = "";
-        var searches = params.search.predicateObject;
-        var sortOrderBy = (params.sort && params.sort.predicate) ? params.sort.predicate : "";
-        var sortDirection = (params.sort && params.sort.reverse) ? "descending" : "ascending";
-        var apiToUse = config_backend.item_search_api;
+        var queryStringData = "";
+        if (params.msgCode) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "msgCode=" + params.msgCode; }
+        if (params.appName) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "appName=" + params.appName; }
+        if (params.language) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "language=" + params.language; }
+        if (params.orderBy) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "orderBy=" + params.orderBy; }
+        if (params.order) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "order=" + params.order; }
+        if (start) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "start=" + start; }
+        if (number) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "number=" + number; }
+        console.log("queryStringData: ", queryStringData);
+        var req = {
+          method: 'GET',
+          url: config_backend.base_url + config_backend.mf_api + "?" + queryStringData
+        };
 
-        // add search terms and counts, ie. igniter/0/10
-        if (searches.global) {
-          if (searches.globalFilter) {
-            searchtext += encodeURIComponent(searches.global) + "/" + encodeURIComponent(searches.globalFilter) + "/" + start + "/" + number;
-            apiToUse = config_backend.item_search_api2;
-          }
-          else {
-            searchtext += encodeURIComponent(searches.global) + "/" + start + "/" + number;
-          }
-        }
-
-        // add sort term and direction, ie. vendorName/descending
-        if (sortOrderBy) {
-          //rename sortOrderBy with database names
-          if (sortOrderBy === "itemName") { sortOrderBy = "ItemRef_FullName"; }
-          else if (sortOrderBy === "itemDescription") { sortOrderBy = "Desc"; }
-          else if (sortOrderBy === "itemPartNumber") { sortOrderBy = "ManufacturerPartNumber"; }
-          else if (sortOrderBy === "itemCustomer") { sortOrderBy = "CustomerRef_FullName"; }
-          else if (sortOrderBy === "vendorName") { sortOrderBy = "VendorRef_FullName"; }
-          else if (sortOrderBy === "referenceNumber") { sortOrderBy = "RefNumber"; }
-          else if (sortOrderBy === "date") { sortOrderBy = "TxnDate"; }
-
-          searchtext += "/" + sortOrderBy + "/" + sortDirection;
-        }
-
-        searchtext = encodeURIComponent(searchtext);
-        console.log("getPurchases(); searchtext:",searchtext);
-
-        $http.get(config_backend.base_url + apiToUse + searchtext).success(function(result) {
-          var data = result.purchases;
-          var totalCount = result.totalCount;
-          var purchases = [];
+        $http(req).success(function(result) {
+          var data = result.results;
+          //var currentPage = result.currentPage;
+          var totalPages = result.totalPages;
+          var messages = [];
           for (var i = 0; i < data.length; i ++) {
-            purchases.push(new POFactory(data[i]));
+            messages.push(new MFFactory(data[i]));
           }
           deferred.resolve({
-            data: purchases,
-            numberOfPages: Math.ceil(totalCount / number)
+            data: messages,
+            numberOfPages: totalPages
           });
         }).error(function(err) {
           console.error("error with API request:",err);
@@ -76,37 +56,38 @@ angular.module('messageFactoryApp')
 
         return deferred.promise;
       },
+
       /**
-       * @name getItemDetail
-       * @memberof POAPIService
-       * @param item_number
+       * @name createMessages
+       * @memberof MFAPIService
+       * @param start
+       * @param number
+       * @param params
        * @returns {Function|promise}
-       * @description Get full details about an item, only needed if directly linking to item detail page
-       * or if refreshing item detail page
+       * @description Method to create 1 or many new messages
        */
-      getItemDetail: function(item_number) {
-        console.log("item_number:",item_number);
+      createMessages: function(messages) {
         var deferred = $q.defer();
+        var postData = {};
+        if (messages.length > 1) { postData.many = messages; }
+        else { postData = messages; }
+        var req = {
+          method: 'POST',
+          url: config_backend.base_url + config_backend.mf_admin_api,
+          data: postData
+        };
 
-        $http.get(config_backend.base_url+config_backend.item_detail_api + encodeURIComponent(item_number)).success(function(data) {
-          deferred.resolve(data);
-        });
-
-        return deferred.promise;
-      },
-      /**
-       * @name getPODetail
-       * @memberof POAPIService
-       * @param po_number
-       * @returns {Function|promise}
-       * @description Get full details about a PO
-       */
-      getPODetail: function(po_number) {
-        console.log("po_number:",po_number);
-        var deferred = $q.defer();
-
-        $http.get(config_backend.base_url+config_backend.po_detail_api + encodeURIComponent(po_number)).success(function(data) {
-          deferred.resolve(data);
+        $http(req).success(function(result) {
+          var data = result.ids;
+          deferred.resolve({
+            data: data
+          });
+        }).error(function(err) {
+          console.error("error with API request:",err);
+          deferred.resolve({
+            data: null,
+            error: "API Request Error"
+          });
         });
 
         return deferred.promise;
@@ -133,11 +114,11 @@ angular.module('messageFactoryApp')
   //}])
   /**
    * @ngdoc Factory
-   * @name POFactory
-   * @description POFactory objects created here
+   * @name MFFactory
+   * @description MFFactory objects created here
    */
-  .factory('POFactory', function() {
-    function POFactory(data) {
+  .factory('MFFactory', function() {
+    function MFFactory(data) {
       for (var attr in data) {
         if (data.hasOwnProperty(attr)) {
           this[attr] = data[attr];
@@ -145,7 +126,7 @@ angular.module('messageFactoryApp')
       }
     }
 
-    return POFactory;
+    return MFFactory;
   })
   /**
    * @ngdoc Factory
