@@ -12,7 +12,8 @@ angular.module('messageFactoryApp')
 
     $scope.loadPageOptions = function() {
       MFAPIService.getAppNames().then(function(result) {
-        $scope.appNames = result.data;
+        console.log("result:",result);
+        $scope.appObjects = result.data.results;
       });
       MFAPIService.getLanguages().then(function(result) {
         $scope.languages = result.data;

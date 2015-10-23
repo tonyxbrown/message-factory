@@ -6,7 +6,7 @@
 
     <h3>App Name</h3>
     <select ng-model="selectedAppName">
-      <option ng-repeat="appName in appNames" value="appName">{{appName}}</option>
+      <option ng-repeat="appObj in appObjects" value="appObj.appName">{{appObj.appName}}</option>
     </select>
     <span class="instruction-text">Select an app from the dropdown. To create a new app go to Create App.</span>
 
