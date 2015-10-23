@@ -47,6 +47,25 @@ angular.module('messageFactoryApp')
 
     $scope.numPerPage = 10;
 
+    //let tour = new Shepherd.Tour({
+    //  defaults: {
+    //    classes: 'shepherd-theme-square-dark'
+    //  }
+    //});
+    //tour.addStep('example', {
+    //  title: 'Tab Navigation',
+    //  text: 'Select All to see both Errors and Messages',
+    //  attachTo: '.navbar-nav bottom',
+    //  advanceOn: '.docs-link click'
+    //});
+    //tour.addStep('example', {
+    //  title: 'Messages/Errors Table',
+    //  text: 'Here you will see all your messages',
+    //  attachTo: '.table-container bottom'
+    //});
+    //
+    //tour.start();
+
 
     //$scope.closeProgressModal = function() {
     //  $('#progressModal').modal('hide');

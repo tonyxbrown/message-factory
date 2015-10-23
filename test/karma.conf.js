@@ -33,6 +33,8 @@ module.exports = function(config) {
       'bower_components/angular-touch/angular-touch.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
       'bower_components/angular-smart-table/dist/smart-table.js',
+      'bower_components/tether/dist/js/tether.js',
+      'bower_components/tether-shepherd/dist/js/shepherd.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",
