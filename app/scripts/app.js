@@ -74,12 +74,12 @@ angular
     console.log("config_ui:",config_ui);
     // Enable feedback mechanism for dev and qa environments.
     // Requires a rest backend to post feedback
-    //if (config_ui.environment === "qa" || config_ui.environment === "dev") {
-    //  $.feedback({
-    //    ajaxURL: 'http://qa1.wetdesign.com:82/feedback',
-    //    html2canvasURL: '../plugins/feedbackjs/html2canvas.js'
-    //  });
-    //}
+    if (config_ui.environment === "qa" || config_ui.environment === "dev") {
+      $.feedback({
+        ajaxURL: 'http://qa1.wetdesign.com:82/feedback',
+        html2canvasURL: '../plugins/feedbackjs/html2canvas.js'
+      });
+    }
 
     /*
      onDocumentClick() using to toggle off mobile menu if it is open and user taps/clicks anywhere
