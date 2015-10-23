@@ -20,11 +20,14 @@ angular.module('messageFactoryApp')
       getMessages: function(start, number, params) {
         var deferred = $q.defer();
         var queryStringData = "";
-        if (params.msgCode) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "msgCode=" + params.msgCode; }
-        if (params.appName) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "appName=" + params.appName; }
-        if (params.language) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "language=" + params.language; }
-        if (params.orderBy) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "orderBy=" + params.orderBy; }
-        if (params.order) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "order=" + params.order; }
+        if (params) {
+          if (params.msgCode) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "msgCode=" + params.msgCode; }
+          if (params.appName) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "appName=" + params.appName; }
+          if (params.language) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "language=" + params.language; }
+          if (params.internalMessage) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "queryString=" + params.internalMessage; }
+          if (params.orderBy) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "orderBy=" + params.orderBy; }
+          if (params.order) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "order=" + params.order; }
+        }
         if (start) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "start=" + start; }
         if (number) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "number=" + number; }
         console.log("queryStringData: ", queryStringData);

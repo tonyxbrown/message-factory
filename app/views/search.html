@@ -1,78 +1,58 @@
+<h2>Search Messages</h2>
 
-<div class="search-top-container">
-  <h2>Search Purchase Orders</h2>
-
-  <div class="search-container">
-
-    <!--<form name="searchForm" ng-controller="SearchCtrl">-->
-      <!--<select ng-model="selectedOption" ng-options="option.name for option in options">-->
-      <!--</select>-->
-      <!--<input type="text" />-->
-      <!--<input type="submit" ng-click="search()" value="Search" class="po-button" />-->
-    <!--</form>-->
-
-
-    <div class="table-container" ng-controller="SearchCtrl as sc">
-      <table st-pipe="sc.callServer" st-table="sc.poCollection" class="table table-striped">
-        <thead>
-        <tr>
-          <th st-sort="po">Po</th>
-          <th st-sort="project">Project</th>
-          <th st-sort="vendor">Vendor</th>
-          <th st-sort="customer">Customer</th>
-          <th st-sort="total">Total</th>
-          <th st-sort="expected">Expected</th>
-          <th st-sort="approved">Approved</th>
-          <th st-sort="status">Status</th>
-        </tr>
-        <tr class="table-search-row">
-          <th><input st-search="po" placeholder="search for po number" type="search" /></th>
-          <th><input st-search="project" placeholder="search for project" type="search" /></th>
-          <th><input st-search="vendor" placeholder="search for customer" type="search" /></th>
-          <th><input st-search="customer" placeholder="search for vendor" type="search" /></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="row in sc.poCollection" class="row-highlight">
-          <td ng-click="selectRow({{row.po}})">{{row.po}}</td>
-          <td ng-click="selectRow({{row.po}})">{{row.project}}</td>
-          <td ng-click="selectRow({{row.po}})">{{row.vendor}}</td>
-          <td ng-click="selectRow({{row.po}})">{{row.customer}}</td>
-          <td ng-click="selectRow({{row.po}})">{{row.total | currency}}</td>
-          <td ng-click="selectRow({{row.po}})">{{row.expected | date}}</td>
-          <td>
-            <a href="" data-toggle="modal" data-target="#progressModal" data-po="{{row.po}}">
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="{{row.approvedPercent}}" ng-class="getApprovedClass(row.status)" aria-valuemin="0" aria-valuemax="100" style="width: {{row.approvedPercent}}%;"></div>
-              </div>
-            </a>
-          </td>
-          <td>{{row.status}}</td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-          <td colspan="8" class="text-center" st-pagination="" st-items-by-page="7"></td>
-        </tr>
-        <tr ng-hide="sc.poCollection.length"><td>No Records</td></tr>
-        </tfoot>
-      </table>
-    </div>
-
-    <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" ng-click="closeProgressModal()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title progress-modal-title" id="progressModalLabel">Approval Progress History</h4>
-          </div>
-          <div class="progress-container"></div>
-          <div class="modal-footer">
-            <button ng-click="closeProgressModal()" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
+  <div class="table-container" ng-controller="SearchCtrl as sc" name="displayTable">
+    <table class="table" st-pipe="sc.callServer" st-table="sc.displayed">
+      <thead>
+      <tr class="table-search-row">
+        <span class="sk-fading-circle-span" ng-show="sc.isLoading">
+            <div class="sk-fading-circle">
+              <div class="sk-circle1 sk-circle"></div>
+              <div class="sk-circle2 sk-circle"></div>
+              <div class="sk-circle3 sk-circle"></div>
+              <div class="sk-circle4 sk-circle"></div>
+              <div class="sk-circle5 sk-circle"></div>
+              <div class="sk-circle6 sk-circle"></div>
+              <div class="sk-circle7 sk-circle"></div>
+              <div class="sk-circle8 sk-circle"></div>
+              <div class="sk-circle9 sk-circle"></div>
+              <div class="sk-circle10 sk-circle"></div>
+              <div class="sk-circle11 sk-circle"></div>
+              <div class="sk-circle12 sk-circle"></div>
+            </div>
+          </span>
+        <th colspan="5">
+          <input st-search="msgCode" placeholder="search Message Code" style="display:inline-block;" name="searchInput.msgCodeSearch" ng-model="searchInput.msgCodeSearch" />
+          <input st-search="appName" placeholder="search App Name" name="searchInput.appNameSearch" ng-model="searchInput.appNameSearch" />
+          <input st-search="internalMessage" placeholder="search Internal Message" name="searchInput.internalMessageSearch" ng-model="searchInput.internalMessageSearch" />
+        </th>
+      </tr>
+      <tr class="column-headers" ng-hide="sc.initialLoad">
+        <th st-sort="msgCode">Message Code</th>
+        <th st-sort="appName">App Name</th>
+        <th st-sort="messageInternal">Internal Message</th>
+        <th st-sort="messageLevel">Message Level</th>
+        <th st-sort="language">Language</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="row in sc.displayed">
+        <td ng-click="selectRow({{row.msgCode}})">{{row.msgCode}}</td>
+        <td ng-click="selectRow({{row.msgCode}})">{{row.appName}}</td>
+        <td ng-click="selectRow({{row.msgCode}})">{{row.message}}</td>
+        <td ng-click="selectRow({{row.msgCode}})">{{row.messageLevel}}</td>
+        <td ng-click="selectRow({{row.msgCode}})"><span ng-show="row.msgCode">{{(row.language) ? row.language : "En"}}</span></td>
+      </tr>
+      <tfoot>
+      <tr>
+        <td colspan="9">
+          <span class="prev-pages" ng-show="hasPreviousPages()">...</span>
+          <div class="text-center pagination-div" st-pagination="" st-items-by-page="10"></div>
+          <span class="next-pages" ng-show="hasNextPages()">...</span>
+        </td>
+      </tr>
+      <tr ng-hide="sc.displayed.length || sc.initialLoad || sc.isLoading || sc.hasError"><td colspan="2">No Records</td></tr>
+      <tr ng-show="sc.hasError"><td colspan="2">API Request Error</td></tr>
+      </tfoot>
+    </table>
   </div>
-</div>
+

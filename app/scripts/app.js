@@ -26,16 +26,16 @@ angular
     'environment': 'dev'
   })
   .constant('config_backend', {
-    'base_url': 'canned_data/',
-    'mf_api': 'all_messages.json',
-    'mf_admin_api': 'success.json',
-    'mf_appnames_api': 'all_app_names.json',
-    'languages_api': 'all_languages.json'
+    //'base_url': 'canned_data/',
+    //'mf_api': 'all_messages.json',
+    //'mf_admin_api': 'success.json',
+    //'mf_appnames_api': 'all_app_names.json',
+    //'languages_api': 'all_languages.json'
 
-    //'base_url': 'http://qa1.wetdesign.com:1000/',
-    //'mf_api': 'mf',
-    //'mf_admin_api': 'admin/createMessages',
-    //'mf_appnames_api': 'admin/findAll'
+    'base_url': 'http://qa1.wetdesign.com:1000/',
+    'mf_api': 'mf',
+    'mf_admin_api': 'admin/createMessages',
+    'mf_appnames_api': 'admin/findAll'
   })
 /**
  * @ngdoc Controller

@@ -33,7 +33,7 @@ angular.module('messageFactoryApp')
           "internalMessage": $scope.selectedInternalMessage,
           "messageLevel": $scope.selectedMessageLevel,
           "language": $scope.selectedLanguage
-        }
+        };
         MFAPIService.createMessages([messageToPost]).then(function(result) {
           console.log("createMessages call returned. result: ",result);
         });
