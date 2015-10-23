@@ -23,7 +23,8 @@ angular
     'projectcode': 'MFUI',
     'num_rows_tablet': 7,
     'num_rows_desktop': 13,
-    'environment': 'dev'
+    'environment': 'dev',
+    'loglevel': 3,
   })
   .constant('config_backend', {
     //'base_url': 'canned_data/',
@@ -45,6 +46,11 @@ angular
  * Controller of the messageFactoryApp
  */
   .controller('AppCtrl', function($rootScope, $scope, $location, config_ui) {
+
+    // override console messages based on loglevel
+    if (config_ui.loglevel <= 2) { console.log = function() {} }
+    if (config_ui.loglevel <= 1) { console.warn = function() {} }
+    if (config_ui.loglevel === 0) { console.error = function() {} }
 
     /**
      * @name rootScope.back
