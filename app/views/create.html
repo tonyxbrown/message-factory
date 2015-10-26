@@ -5,9 +5,7 @@
   <div class="search-container" ng-controller="CreateCtrl as sc">
 
     <h3>App Name</h3>
-    <select ng-model="selectedAppName">
-      <option ng-repeat="appObj in appObjects" value="appObj.appName">{{appObj.appName}}</option>
-    </select>
+    <select name="selectedApp" ng-model="selectedApp" ng-options="appObj.appName for appObj in appObjects"></select>
     <span class="instruction-text">Select an app from the dropdown. To create a new app go to Create App.</span>
 
     <h3>Message Code</h3>
@@ -27,9 +25,7 @@
     <textarea ng-model="selectedInternalMessage"></textarea>
 
     <h3>Language</h3>
-    <select ng-model="selectedLanguage">
-      <option ng-repeat="language in languages" value="language">{{language}}</option>
-    </select>
+    <select name="selectedLanguage" ng-model="selectedLanguage" ng-options="language for language in languages"></select>
 
     <br>
     <input type="submit" class="po-button" ng-click="newMessageSubmit()" />

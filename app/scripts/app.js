@@ -31,12 +31,13 @@ angular
     //'mf_api': 'all_messages.json',
     //'mf_admin_api': 'success.json',
     //'mf_appnames_api': 'all_app_names.json',
-    //'languages_api': 'all_languages.json'
+    //'mf_languages_api': 'all_languages.json'
 
     'base_url': 'http://qa1.wetdesign.com:1000/',
     'mf_api': 'mf',
     'mf_admin_api': 'admin/createMessages',
-    'mf_appnames_api': 'admin/findAll'
+    'mf_appnames_api': 'admin/findAll',
+    'mf_languages_api': 'admin/findLanguages'
   })
 /**
  * @ngdoc Controller
@@ -48,9 +49,9 @@ angular
   .controller('AppCtrl', function($rootScope, $scope, $location, config_ui) {
 
     // override console messages based on loglevel
-    if (config_ui.loglevel <= 2) { console.log = function() {} }
-    if (config_ui.loglevel <= 1) { console.warn = function() {} }
-    if (config_ui.loglevel === 0) { console.error = function() {} }
+    if (config_ui.loglevel <= 2) { console.log = function() {}; }
+    if (config_ui.loglevel <= 1) { console.warn = function() {}; }
+    if (config_ui.loglevel === 0) { console.error = function() {}; }
 
     /**
      * @name rootScope.back

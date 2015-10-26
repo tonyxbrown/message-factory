@@ -23,15 +23,16 @@ angular.module('messageFactoryApp')
     $scope.loadPageOptions();
 
     $scope.newMessageSubmit = function() {
-      console.log("newMessageSubmit(); form options:",$scope.selectedAppName,$scope.selectedMsgCode,$scope.selectedInternalMessage,
+      console.log("newMessageSubmit(); form options:",$scope.selectedApp.appName,$scope.selectedMsgCode,$scope.selectedInternalMessage,
       $scope.selectedMessageLevel,$scope.selectedLanguage);
+      console.log("app name dropdown .value property:");
 
-      if ($scope.selectedAppName && $scope.selectedMsgCode && $scope.selectedInternalMessage &&
+      if ($scope.selectedApp && $scope.selectedApp.appName && $scope.selectedMsgCode && $scope.selectedInternalMessage &&
         $scope.selectedMessageLevel && $scope.selectedLanguage) {
         var messageToPost = {
-          "appName": $scope.selectedAppName,
+          "appName": $scope.selectedApp.appName,
           "msgCode": $scope.selectedMsgCode,
-          "internalMessage": $scope.selectedInternalMessage,
+          "message": $scope.selectedInternalMessage,
           "messageLevel": $scope.selectedMessageLevel,
           "language": $scope.selectedLanguage
         };

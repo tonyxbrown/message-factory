@@ -100,7 +100,8 @@ angular.module('messageFactoryApp')
 
         var req = {
           method: 'GET',
-          url: config_backend.base_url + config_backend.languages_api
+          url:'canned_data/all_languages.json'
+          //url: config_backend.base_url + config_backend.mf_languages_api
         };
 
         $http(req).success(function(result) {
@@ -131,20 +132,36 @@ angular.module('messageFactoryApp')
         var deferred = $q.defer();
         var postData = {};
         if (messages.length > 1) { postData.many = messages; }
-        else { postData = messages; }
+        else { postData = messages[0]; }
+        console.log("adding request data: ",postData);
         var req = {
           method: 'POST',
           url: config_backend.base_url + config_backend.mf_admin_api,
-          data: postData
+          data: $.param(postData),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+          //data: postData
         };
 
-        $http(req).success(function(result) {
-          var data = result.ids;
+        //$http(req).success(function(result) {
+        //  var data = result.ids;
+        //  deferred.resolve({
+        //    data: data
+        //  });
+        //}).error(function(err) {
+        //  console.error("error with API request:",err);
+        //  deferred.resolve({
+        //    data: null,
+        //    error: "API Request Error"
+        //  });
+        //});
+
+        $http(req).then(function successCallback(result) {
+          var data = result.status;
           deferred.resolve({
             data: data
           });
-        }).error(function(err) {
-          console.error("error with API request:",err);
+        }, function errorCallback(result) {
+          console.error("error with API request:",result);
           deferred.resolve({
             data: null,
             error: "API Request Error"

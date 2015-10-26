@@ -182,35 +182,7 @@ textarea.form-control {
         padding-left: 5px;
         padding-right: 5px;
       }
-      &.decision-row {
-        @media @mobile {
-          background-color: #b7aba7;
-          color: #fff;
-          a {
-            color: #000;
-            font-family: LinotypeUnivers-530Medium;
-            &.approve-icon:before {
-              content: "Approve";
-            }
-            &.pause-icon:before {
-              content: "Pause";
-            }
-            &.play-icon:before {
-              content: "Play";
-            }
-            &.decline-icon:before {
-              content: "Decline";
-            }
-            &.receive-icon:before {
-              content: "Receive";
-            }
 
-            img {
-              margin-top: -3px;
-            }
-          }
-        }
-      }
     }
     // Search Table Styles
     //
@@ -370,8 +342,18 @@ a:hover, a:focus {
     color: #fff;
     font-family: LinotypeUnivers-330Light;
     font-size: 36px;
+    img {
+      display: inline-block;
+      width: 128px;
+      margin-top: -10px;
+    }
     @media @tablet {
       font-size: 28px;
+      img {
+        display: inline-block;
+        width: 100px;
+        margin-top: -7px;
+      }
     }
     @media @mobile {
       font-size: 18px;
@@ -379,6 +361,11 @@ a:hover, a:focus {
       position: absolute;
       padding-top: 15px;
       padding-left: 17px;
+      img {
+        display: inline-block;
+        width: 70px;
+        margin-top: -4px;
+      }
     }
   }
 
@@ -565,86 +552,21 @@ a:hover, a:focus {
       &.table:not(.detail-table2) {
         tbody {
           td:nth-of-type(1):before {
-            content: "Po";
+            content: "Code";
           }
           td:nth-of-type(2):before {
-            content: "Project";
+            content: "App Name";
           }
           td:nth-of-type(3):before {
-            content: "Vendor";
+            content: "Message";
           }
           td:nth-of-type(4):before {
-            content: "Customer";
+            content: "Level";
           }
           td:nth-of-type(5):before {
-            content: "Total";
-          }
-          td:nth-of-type(6):before {
-            content: "Expected";
-          }
-          td:nth-of-type(7):before {
-            content: "Approved";
-          }
-          td:nth-of-type(8):before {
-            content: "Decision";
-            top: 11px;
+            content: "Language";
           }
         }
-      }
-    }
-    &.detail-table {
-      td:nth-of-type(1):before {
-        content: "Memo";
-      }
-      td:nth-of-type(2):before {
-        content: "Vendor Msg";
-      }
-      td:nth-of-type(3):before {
-        content: "Decline Reason";
-      }
-      td:nth-of-type(4):before {
-        content: "Approver Comments";
-      }
-    }
-    &.detail-table2 {
-      td:nth-of-type(1):before {
-        content: "Item";
-      }
-      td:nth-of-type(2):before {
-        content: "Mpn";
-      }
-      td:nth-of-type(3):before {
-        content: "Wc";
-      }
-      td:nth-of-type(4):before {
-        content: "Description";
-      }
-      td:nth-of-type(5):before {
-        content: "ProjectId";
-      }
-      td:nth-of-type(6):before {
-        content: "Product";
-      }
-      td:nth-of-type(7):before {
-        content: "Class";
-      }
-      td:nth-of-type(8):before {
-        content: "Qty";
-      }
-      td:nth-of-type(9):before {
-        content: "U/M";
-      }
-      td:nth-of-type(10):before {
-        content: "Cost";
-      }
-      td:nth-of-type(11):before {
-        content: "Lead";
-      }
-      td:nth-of-type(12):before {
-        content: "Device";
-      }
-      td:nth-of-type(13):before {
-        content: "Amount";
       }
     }
 
