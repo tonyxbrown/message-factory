@@ -23,6 +23,7 @@ angular.module('messageFactoryApp')
         if (params) {
           if (params.msgCode) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "msgCode=" + params.msgCode; }
           if (params.appName) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "appName=" + params.appName; }
+          if (params.messageLevel) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "messageLevel=" + params.messageLevel; }
           if (params.language) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "language=" + params.language; }
           if (params.internalMessage) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "queryString=" + params.internalMessage; }
           if (params.orderBy) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "orderBy=" + params.orderBy; }
@@ -100,13 +101,13 @@ angular.module('messageFactoryApp')
 
         var req = {
           method: 'GET',
-          url:'canned_data/all_languages.json'
-          //url: config_backend.base_url + config_backend.mf_languages_api
+          //url:'canned_data/all_languages.json'
+          url: config_backend.base_url + config_backend.mf_languages_api
         };
 
         $http(req).success(function(result) {
           deferred.resolve({
-            data: result
+            data: result.results
           });
         }).error(function(err) {
           console.error("error with API request:",err);
@@ -127,6 +128,10 @@ angular.module('messageFactoryApp')
        * @param params
        * @returns {Function|promise}
        * @description Method to create 1 or many new messages
+       * If creating with multiple language messages, do something like:
+       * 'message': 'something english',
+       * 'CHT': 'something chinese',
+       * etc.
        */
       createMessages: function(messages) {
         var deferred = $q.defer();

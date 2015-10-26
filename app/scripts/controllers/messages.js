@@ -14,6 +14,7 @@ angular.module('messageFactoryApp')
     var max = 10;
     $scope.loadMessages = function() {
       var params = {
+        messageLevel: 'message',
         orderBy: 'msgCode',
         order: 'desc'
       };

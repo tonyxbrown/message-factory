@@ -34,10 +34,11 @@ angular
     //'mf_languages_api': 'all_languages.json'
 
     'base_url': 'http://qa1.wetdesign.com:1000/',
+    //'mf_api': 'admin/findAllMessage',
     'mf_api': 'mf',
     'mf_admin_api': 'admin/createMessages',
-    'mf_appnames_api': 'admin/findAll',
-    'mf_languages_api': 'admin/findLanguages'
+    'mf_appnames_api': 'admin/findAllApp',
+    'mf_languages_api': 'admin/findAllLanguage'
   })
 /**
  * @ngdoc Controller
