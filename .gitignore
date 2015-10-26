@@ -3,3 +3,9 @@
 /.tmp
 /.sass-cache
 /bower_components
+/.idea
+.idea/workspace.xml
+/doc
+/styleguide
+/coverage
+/junit
