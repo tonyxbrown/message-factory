@@ -23,8 +23,8 @@ angular
     'projectcode': 'MFUI',
     'num_rows_tablet': 7,
     'num_rows_desktop': 13,
-    'environment': 'dev',
-    'loglevel': 3,
+    'environment': window.configOptions.environment,
+    'loglevel': window.configOptions.loglevel
   })
   .constant('config_backend', {
     //'base_url': 'canned_data/',
@@ -33,7 +33,7 @@ angular
     //'mf_appnames_api': 'all_app_names.json',
     //'mf_languages_api': 'all_languages.json'
 
-    'base_url': 'http://qa1.wetdesign.com:1000/',
+    'base_url': window.configOptions.base_url,
     //'mf_api': 'admin/findAllMessage',
     'mf_api': 'mf',
     'mf_admin_api': 'admin/createMessages',
@@ -84,8 +84,8 @@ angular
     // Requires a rest backend to post feedback
     if (config_ui.environment === "qa" || config_ui.environment === "dev") {
       $.feedback({
-        ajaxURL: 'http://qa1.wetdesign.com:82/feedback',
-        html2canvasURL: '../plugins/feedbackjs/html2canvas.js'
+        ajaxURL: window.configOptions.ajaxURL,
+        html2canvasURL: window.configOptions.html2canvasURL
       });
     }
 
