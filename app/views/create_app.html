@@ -1,0 +1,51 @@
+
+<div class="search-top-container">
+  <h2>Create App</h2>
+
+  <div class="search-container" ng-controller="CreateAppCtrl as sc">
+
+    <h3>App Name</h3>
+    <input name="requestedAppName" ng-model="requestedAppName" />
+    <span class="instruction-text">Choose an App Name</span>
+
+    <h3>Request Number of Slots</h3>
+    <input name="requestedSlots" ng-model="requestedSlots" />
+    <span class="instruction-text">Input the number of message slots desired.</span>
+
+    <br>
+    <input type="submit" value="Create" class="po-button" ng-click="newAppSubmit()" />
+
+    <div ng-show="appResults && appResults.status === 'successful'" class="app-create-results success">
+    <!--<div class="app-create-results success">-->
+      <p>
+        <h2>App created successfully!</h2>
+        <p>App Name: {{appResults.appName}}</p>
+        <p>App Prefix: {{appResults.prefix}}</p>
+        <p>App Slots: {{appResults.availableSlot.length}}</p>
+      </p>
+    </div>
+
+    <div ng-show="appResults && appResults.status === 'error'" class="app-create-results error">
+    <!--<div class="app-create-results error">-->
+      <h2>App creation failed.</h2>
+      <p>Error: {{appResults.error}}</p>
+    </div>
+
+
+    <!--<div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel">-->
+      <!--<div class="modal-dialog" role="document">-->
+        <!--<div class="modal-content">-->
+          <!--<div class="modal-header">-->
+            <!--<button type="button" class="close" ng-click="closeProgressModal()" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+            <!--<h4 class="modal-title progress-modal-title" id="progressModalLabel">Approval Progress History</h4>-->
+          <!--</div>-->
+          <!--<div class="progress-container"></div>-->
+          <!--<div class="modal-footer">-->
+            <!--<button ng-click="closeProgressModal()" type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+  </div>
+</div>

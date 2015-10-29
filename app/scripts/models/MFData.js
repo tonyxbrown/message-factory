@@ -141,34 +141,52 @@ angular.module('messageFactoryApp')
         console.log("adding request data: ",postData);
         var req = {
           method: 'POST',
-          url: config_backend.base_url + config_backend.mf_admin_api,
+          url: config_backend.base_url + config_backend.mf_admin_createmessages_api,
           data: $.param(postData),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-          //data: postData
         };
 
-        //$http(req).success(function(result) {
-        //  var data = result.ids;
-        //  deferred.resolve({
-        //    data: data
-        //  });
-        //}).error(function(err) {
-        //  console.error("error with API request:",err);
-        //  deferred.resolve({
-        //    data: null,
-        //    error: "API Request Error"
-        //  });
-        //});
-
         $http(req).then(function successCallback(result) {
-          var data = result.status;
           deferred.resolve({
-            data: data
+            data: result.data
           });
         }, function errorCallback(result) {
           console.error("error with API request:",result);
           deferred.resolve({
             data: null,
+            error: "API Request Error"
+          });
+        });
+
+        return deferred.promise;
+      },
+
+      /**
+       * @name createApp
+       * @memberof MFAPIService
+       * @param appInfo
+       * @returns {Function|promise}
+       * @description Method to a new app
+       */
+      createApp: function(appInfo) {
+        var deferred = $q.defer();
+        var postData = appInfo;
+        console.log("adding request data: ",postData);
+        var req = {
+          method: 'POST',
+          url: config_backend.base_url + config_backend.mf_admin_createapp_api,
+          data: $.param(postData),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        };
+
+        $http(req).then(function successCallback(result) {
+          deferred.resolve({
+            data: result.data
+          });
+        }, function errorCallback(result) {
+          console.error("error with API request:",result);
+          deferred.resolve({
+            data: result,
             error: "API Request Error"
           });
         });

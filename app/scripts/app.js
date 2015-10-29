@@ -36,7 +36,8 @@ angular
     'base_url': window.configOptions.base_url,
     //'mf_api': 'admin/findAllMessage',
     'mf_api': 'mf',
-    'mf_admin_api': 'admin/createMessages',
+    'mf_admin_createmessages_api': 'admin/createMessages',
+    'mf_admin_createapp_api': 'admin/createApp',
     'mf_appnames_api': 'admin/findAllApp',
     'mf_languages_api': 'admin/findAllLanguage'
   })
@@ -147,9 +148,13 @@ angular
         url: "/messages",
         templateUrl: "views/messages.html"
       })
-      .state('create', {
-        url: "/create",
-        templateUrl: "views/create.html"
+      .state('createmessage', {
+        url: "/createmessage",
+        templateUrl: "views/create_message.html"
+      })
+      .state('createapp', {
+        url: "/createapp",
+        templateUrl: "views/create_app.html"
       })
       .state('export', {
         url: "/export",

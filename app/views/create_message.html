@@ -1,16 +1,17 @@
 
 <div class="search-top-container">
-  <h2>Create</h2>
+  <h2>Create Message</h2>
 
-  <div class="search-container" ng-controller="CreateCtrl as sc">
+  <div class="search-container" ng-controller="CreateMessageCtrl as sc">
 
     <h3>App Name</h3>
-    <select name="selectedApp" ng-model="selectedApp" ng-options="appObj.appName for appObj in appObjects"></select>
+    <select ng-model="selectedApp" ng-options="appObj.appName for appObj in appObjects"></select>
     <span class="instruction-text">Select an app from the dropdown. To create a new app go to Create App.</span>
 
-    <h3>Message Code</h3>
-    <input type="text" ng-model="selectedMsgCode" />
-    <span class="instruction-text">You can use any number between 1 and 100.</span>
+    <h3>Available Message Codes</h3>
+    <select name="selectedMsgCode" ng-model="selectedMsgCode" ng-options="slot for slot in selectedApp.availableSlot"></select>
+    <span ng-hide="selectedApp" class="instruction-text">Select an app to view available message codes.</span>
+    <span ng-show="selectedApp" class="instruction-text">Choose an available message code. This number will be prefixed by the <i>{{selectedApp.appName}}</i> app's message code prefix <i>{{selectedApp.prefix}}</i></span>
 
     <h3>Message Level</h3>
     <select ng-model="selectedMessageLevel">
@@ -29,9 +30,18 @@
 
     <h3>Language</h3>
     <select name="selectedLanguage" ng-model="selectedLanguage" ng-options="language for language in languages"></select>
+    <span class="instruction-text">Optional. Default will be ENU - United States English</span>
 
     <br>
-    <input type="submit" class="po-button" ng-click="newMessageSubmit()" />
+    <input type="submit" value="Create" class="po-button" ng-click="newMessageSubmit()" />
+    <span class="create-another"><input type="checkbox" name="create_another" ng-model="create_another"> Create Another Message</span>
+
+    <div ng-show="appResults && appResults.status === 'successful'" class="app-create-results success">
+      <!--<div class="app-create-results success">-->
+      <p>
+      <h2>Message created successfully!</h2>
+      </p>
+    </div>
 
 
     <!--<div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel">-->

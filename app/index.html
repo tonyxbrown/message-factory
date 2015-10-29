@@ -46,12 +46,13 @@
         </button>
 
         <a class="navbar-brand" ui-sref="main"><img src="images/logo.svg" />Message Factory</a>
-        <!--<a class="navbar-brand" ui-sref="main"><img src="images/logo.svg" /><span class="wet-brand-header">WET</span> Message Factory</a>-->
+
       </div>
 
       <div class="collapse navbar-collapse" id="js-navbar-collapse" ng-if="checkToggle()">
         <ul class="nav navbar-nav">
-          <li><a ui-sref="create">Create</a></li>
+          <li><a ui-sref="createmessage">Create Message</a></li>
+          <li><a ui-sref="createapp">Create App</a></li>
           <li><a ui-sref="export">Export</a></li>
           <li><a ui-sref="search">Search</a></li>
         </ul>
@@ -101,7 +102,8 @@
 <script src="scripts/controllers/all.js"></script>
 <script src="scripts/controllers/errors.js"></script>
 <script src="scripts/controllers/messages.js"></script>
-<script src="scripts/controllers/create.js"></script>
+<script src="scripts/controllers/create_message.js"></script>
+<script src="scripts/controllers/create_app.js"></script>
 <script src="scripts/controllers/export.js"></script>
 <script src="scripts/controllers/search.js"></script>
 <script src="scripts/models/MFData.js"></script>

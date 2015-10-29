@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc Controller
- * @name CreateCtrl
+ * @name CreateMessageCtrl
  * @description
- * # CreateCtrl
+ * # CreateMessageCtrl
  * Controller of the messageFactoryApp
  */
 angular.module('messageFactoryApp')
-  .controller('CreateCtrl', ['$scope', '$window', '$location', '$timeout', '$filter', 'config_ui', 'MFAPIService', function ($scope, $window, $location, $timeout, $filter, config_ui, MFAPIService) {
+  .controller('CreateMessageCtrl', ['$scope', '$window', '$location', '$timeout', '$filter', 'config_ui', 'MFAPIService', function ($scope, $window, $location, $timeout, $filter, config_ui, MFAPIService) {
 
     $scope.loadPageOptions = function() {
       MFAPIService.getAppNames().then(function(result) {
@@ -23,21 +23,35 @@ angular.module('messageFactoryApp')
     $scope.loadPageOptions();
 
     $scope.newMessageSubmit = function() {
+      console.log("newMessageSubmit(); create_another: ",$scope.create_another);
       console.log("newMessageSubmit(); form options:",$scope.selectedApp.appName,$scope.selectedMsgCode,$scope.selectedInternalMessage,
         $scope.selectedExternalMessage,$scope.selectedMessageLevel,$scope.selectedLanguage);
 
+      var languageToUse = ($scope.selectedLanguage || "ENU");
+
       if ($scope.selectedApp && $scope.selectedApp.appName && $scope.selectedMsgCode && $scope.selectedInternalMessage &&
-        $scope.selectedExternalMessage && $scope.selectedMessageLevel && $scope.selectedLanguage) {
+        $scope.selectedExternalMessage && $scope.selectedMessageLevel) {
+        var messageCodeConcat = parseInt($scope.selectedApp.prefix.toString() + $scope.selectedMsgCode.toString());
         var messageToPost = {
           "appName": $scope.selectedApp.appName,
-          "msgCode": $scope.selectedMsgCode,
-          "message": $scope.selectedInternalMessage,
-          "messageInternal": $scope.selectedExternalMessage,
+          "msgCode": messageCodeConcat,
+          "message": $scope.selectedExternalMessage,
+          "messageInternal": $scope.selectedInternalMessage,
           "messageLevel": $scope.selectedMessageLevel,
-          "language": $scope.selectedLanguage
+          "language": languageToUse
         };
         MFAPIService.createMessages([messageToPost]).then(function(result) {
           console.log("createMessages call returned. result: ",result);
+          $scope.appResults = result.data;
+          if (!$scope.create_another) {
+            $location.url("/main");
+          }
+          else { // otherwise stay here
+            var prevSelectedApp = $scope.selectedApp;
+            $scope.selectedMsgCode = ""; // clear msgCode because they must select a new one to create another code
+            $scope.loadPageOptions(); // reload page options, should remove a message code option from dropdown
+            $scope.selectedApp = prevSelectedApp;
+          }
         });
       }
     };
