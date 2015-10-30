@@ -37,10 +37,34 @@ module.exports = function(config) {
       'bower_components/tether-shepherd/dist/js/shepherd.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
+      "app/configs/**/*.js",
       "app/scripts/**/*.js",
-      "test/mock/**/*.js",
+      //"test/mock/**/*.js",
       "test/spec/**/*.js"
     ],
+
+    reporters: [
+      'coverage',
+      'progress',
+      'junit'
+    ],
+
+    junitReporter: {
+      outputDir: 'junit'
+    },
+
+    preprocessors: {
+      'app/scripts/**/*.js': ['coverage']
+    },
+
+    coverageReporter: {
+      dir: 'coverage/',
+      reporters: [
+        { type: 'html', subdir: '.' },
+        { type: 'cobertura', subdir: '.' },
+        { type: 'lcovonly', subdir: '.' }
+      ]
+    },
 
     // list of files / patterns to exclude
     exclude: [
@@ -64,7 +88,9 @@ module.exports = function(config) {
     // Which plugins to enable
     plugins: [
       "karma-phantomjs-launcher",
-      "karma-jasmine"
+      "karma-jasmine",
+      "karma-coverage",
+      "karma-junit-reporter"
     ],
 
     // Continuous Integration mode
