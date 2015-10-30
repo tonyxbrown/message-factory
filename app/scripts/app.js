@@ -84,10 +84,12 @@ angular
     // Enable feedback mechanism for dev and qa environments.
     // Requires a rest backend to post feedback
     if (config_ui.environment === "qa" || config_ui.environment === "dev") {
-      $.feedback({
-        ajaxURL: window.configOptions.ajaxURL,
-        html2canvasURL: window.configOptions.html2canvasURL
-      });
+      if ($.feedback) {
+        $.feedback({
+          ajaxURL: window.configOptions.ajaxURL,
+          html2canvasURL: window.configOptions.html2canvasURL
+        });
+      }
     }
 
     /*
