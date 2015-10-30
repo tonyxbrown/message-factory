@@ -411,6 +411,7 @@ module.exports = function (grunt) {
             'images/{,*/}*.{webp}',
             'fonts/{,*/}*.*',
             'plugins/{,*/}*.*',
+            'configs/{,*/}*.*',
             'canned_data/{,*/}*.*'
           ]
         }, {
