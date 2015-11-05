@@ -36,10 +36,12 @@ angular
     'base_url': window.configOptions.base_url,
     //'mf_api': 'admin/findAllMessage',
     'mf_api': 'mf',
+    'mf_findallmessage_api': 'admin/findAllMessage',
     'mf_admin_createmessages_api': 'admin/createMessages',
     'mf_admin_createapp_api': 'admin/createApp',
     'mf_appnames_api': 'admin/findAllApp',
-    'mf_languages_api': 'admin/findAllLanguage'
+    'mf_languages_api': 'admin/findAllLanguage',
+    'mf_admin_delete_api': 'admin/deleteMSG'
   })
 /**
  * @ngdoc Controller

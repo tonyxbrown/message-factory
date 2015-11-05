@@ -275,16 +275,28 @@ a:hover, a:focus {
     margin-bottom: 0px;
     margin-left: 5%;
   }
-  .help-block {
-    font-size: 12px;
-    padding-left: 5%;
-  }
+
 }
 .modal {
   button {
     &.btn {
       padding-top: 7px;
       padding-bottom: 5px;
+    }
+  }
+  input, textarea {
+    padding-left: 6px;
+  }
+  .help-block {
+    font-size: 12px;
+    padding-left: 10px;
+    font-style: italic;
+    margin-bottom: 30px;
+  }
+
+  .modal-footer {
+    button:first-of-type {
+      float: left;
     }
   }
 }
