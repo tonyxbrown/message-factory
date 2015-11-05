@@ -11,10 +11,10 @@ angular.module('messageFactoryApp')
   .controller('ErrorsCtrl', ['$scope', '$window', '$location', 'config_ui', '$timeout', 'MFAPIService', function ($scope, $window, $location, config_ui, $timeout, MFAPIService) {
 
     var start = 0;
-    var max = 10;
+    var max = 1000;
     $scope.loadMessages = function() {
       var params = {
-        messageLevel: 'error',
+        messageLevel: 'Error',
         orderBy: 'msgCode',
         order: 'desc'
       };

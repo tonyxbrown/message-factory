@@ -20,9 +20,7 @@ angular.module('messageFactoryApp')
      * @description determines if subnav option (all/errors/messages) should show an active state
      */
     $scope.getClass = function(path) {
-      console.log("getClass:",$location.path(),path);
       if ($location.path() === path) {
-        console.log("return active for path:",path);
         return "active";
       }
       else {

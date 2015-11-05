@@ -29,8 +29,8 @@ angular.module('messageFactoryApp')
           if (params.orderBy) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "orderBy=" + params.orderBy; }
           if (params.order) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "order=" + params.order; }
         }
-        if (start) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "start=" + start; }
-        if (number) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "number=" + number; }
+        if (start) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "pageNumber=" + start; }
+        if (number) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "perPage=" + 30; }
         console.log("queryStringData: ", queryStringData);
         var req = {
           method: 'GET',
@@ -175,6 +175,39 @@ angular.module('messageFactoryApp')
         var req = {
           method: 'POST',
           url: config_backend.base_url + config_backend.mf_admin_createapp_api,
+          data: $.param(postData),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        };
+
+        $http(req).then(function successCallback(result) {
+          deferred.resolve({
+            data: result.data
+          });
+        }, function errorCallback(result) {
+          console.error("error with API request:",result);
+          deferred.resolve({
+            data: result,
+            error: "API Request Error"
+          });
+        });
+
+        return deferred.promise;
+      },
+
+      /**
+       * @name deleteMessage
+       * @memberof MFAPIService
+       * @param msgCode
+       * @returns {Function|promise}
+       * @description Method to delete a message
+       */
+      deleteMessage: function(msgCodeObj) {
+        var deferred = $q.defer();
+        var postData = msgCodeObj;
+        console.log("adding request data: ",postData);
+        var req = {
+          method: 'DELETE',
+          url: config_backend.base_url + config_backend.mf_admin_delete_api,
           data: $.param(postData),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         };

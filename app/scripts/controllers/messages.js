@@ -11,12 +11,12 @@ angular.module('messageFactoryApp')
   .controller('MessagesCtrl', ['$scope', '$window', '$location', 'config_ui', '$timeout', 'MFAPIService', function ($scope, $window, $location, config_ui, $timeout, MFAPIService) {
 
     var start = 0;
-    var max = 10;
+    var max = 1000;
     $scope.loadMessages = function() {
       var params = {
-        messageLevel: 'message',
+        messageLevel: 'Message',
         orderBy: 'msgCode',
-        order: 'desc'
+        order: 'asc'
       };
       MFAPIService.getMessages(start,max,params).then(function(result) {
         $scope.messages = result.data;
