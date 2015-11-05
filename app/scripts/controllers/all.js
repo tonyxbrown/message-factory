@@ -113,12 +113,9 @@ angular.module('messageFactoryApp')
       $state.go($state.current, {}, {reload: true});
     };
 
-    $('#editModal').on('show.bs.modal', function (event) {
+    $('#editModal').on('show.bs.modal', function () {
 
       var msg = $scope.currentRow;
-      /*
-      appName, message, messageInternal, messageLevel, msgCode
-       */
       var msgCode = msg.msgCode;
 
       var modal = $(this);
