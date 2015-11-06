@@ -25,6 +25,7 @@ angular.module('messageFactoryApp')
           if (params.appName) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "appName=" + params.appName; }
           if (params.messageLevel) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "messageLevel=" + params.messageLevel; }
           if (params.language) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "language=" + params.language; }
+          if (params.message) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "queryString=" + params.message; }
           if (params.internalMessage) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "queryString=" + params.internalMessage; }
           if (params.orderBy) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "orderBy=" + params.orderBy; }
           if (params.order) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "order=" + params.order; }

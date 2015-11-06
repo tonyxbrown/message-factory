@@ -23,7 +23,7 @@
         <th colspan="5">
           <input st-search="msgCode" placeholder="search exact Message Code" style="display:inline-block;" name="searchInput.msgCodeSearch" ng-model="searchInput.msgCodeSearch" />
           <input st-search="appName" placeholder="search App Name" name="searchInput.appNameSearch" ng-model="searchInput.appNameSearch" />
-          <input st-search="internalMessage" placeholder="search Internal Message" name="searchInput.internalMessageSearch" ng-model="searchInput.internalMessageSearch" />
+          <input st-search="message" placeholder="search Message" name="searchInput.messageSearch" ng-model="searchInput.messageSearch" />
           <select st-search="messageLevel" ng-model="searchInput.messageLevelSearch" name="searchInput.messageLevelSearch">
             <option value="">All</option>
             <option value="Message">Message</option>
@@ -37,7 +37,7 @@
       <tr class="column-headers" ng-hide="sc.initialLoad">
         <th st-sort="msgCode">Message Code</th>
         <th st-sort="appName">App Name</th>
-        <th st-sort="messageInternal">Internal Message</th>
+        <th st-sort="message">Message</th>
         <th st-sort="messageLevel">Message Level</th>
         <th st-sort="language">Language</th>
       </tr>
