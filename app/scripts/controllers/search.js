@@ -8,7 +8,17 @@
  * Controller of the messageFactoryApp
  */
 angular.module('messageFactoryApp')
-  .controller('SearchCtrl', ['$scope', '$window', '$location', '$timeout', '$filter', 'config_ui', 'MFAPIService', function ($scope, $window, $location, $timeout, $filter, config_ui, MFAPIService) {
+  .controller('SearchCtrl', ['$scope', '$window', '$location', '$state', '$timeout', '$filter', 'config_ui', 'MFAPIService', function ($scope, $window, $location, $state, $timeout, $filter, config_ui, MFAPIService) {
+
+    $scope.loadPageOptions = function() {
+      MFAPIService.getAppNames().then(function(result) {
+        $scope.appObjects = result.data.results;
+      });
+      MFAPIService.getLanguages().then(function(result) {
+        $scope.languages = result.data;
+      });
+    };
+    $scope.loadPageOptions();
 
     var ctrl = this;
 
@@ -22,29 +32,34 @@ angular.module('messageFactoryApp')
     this.callServer = function callServer(tableState) {
       ctrl.isLoading = true;
       console.log("callServer, tableState:",tableState);
-      var searchFields = tableState.search.predicateObject;
-      //var queryStringParams = "";
-      //for (var key in searchFields) {
-      //  var obj = searchFields[key];
-      //  console.log("key,obj",key,obj);
-      //  if (queryStringParams) { queryStringParams += "&"; }
-      //  queryStringParams += key + "=" + obj;
-      //}
+
+      var params = {};
+      var orderBy = "";
+      var order = "";
+      if (tableState) {
+        if (tableState.sort) {
+          if (tableState.sort.predicate) {
+            orderBy = tableState.sort.predicate;
+            order = (tableState.sort.reverse) ? "desc" : "asc";
+          }
+        }
+      }
+      if (tableState.search && tableState.search.predicateObject) {
+        params = tableState.search.predicateObject;
+      }
+      if (orderBy) { params.orderBy = orderBy; }
+      if (order) { params.order = order; }
 
       var start = 0;
-      var max = 10;
+      var max = 1000;
       $scope.loadMessages = function(params) {
         MFAPIService.getMessages(start,max,params).then(function(result) {
-          var data = result.data;
-
-          ctrl.displayed = data;
-
+          ctrl.displayed = result.data;
           ctrl.isLoading = false;
-          start += 10;
         });
       };
 
-      $scope.loadMessages(searchFields);
+      $scope.loadMessages(params);
 
     };
 
@@ -54,7 +69,6 @@ angular.module('messageFactoryApp')
      * before currently displayed first page number
      */
     $scope.hasPreviousPages = function() {
-      console.log("hasPreviousPages()");
       if ($('.pagination > li > a') && $('.pagination > li > a').html()) {
         if ($('.pagination > li > a').html() !== "1") {
           return true;
@@ -88,8 +102,10 @@ angular.module('messageFactoryApp')
      * Search page only navigates to a root detail page instead of a detail page
      * as subview within main
      */
-    $scope.selectRow = function(row_po) {
-      $location.url("/detail?po_num="+row_po);
+    $scope.selectRow = function(row) {
+      console.log("Message " + row + " selected. Go to edit modal.",row);
+      $scope.currentRow = row;
+      $('#editModal').modal('show');
     };
 
     /**
@@ -109,50 +125,72 @@ angular.module('messageFactoryApp')
 
     $scope.numPerPage = $scope.getRowMax();
 
-    //$scope.closeProgressModal = function() {
-    //  $('#progressModal').modal('hide');
-    //};
-    //
-    //$('#progressModal').on('show.bs.modal', function (event) {
-    //  var button = $(event.relatedTarget); // Button that triggered the modal
-    //  var po = button.data('po'); // po number
-    //  var collection = POAPIService.getPOByNumber(ctrl.poCollection,po);
-    //  var approvalHistory = collection.approval_history;
-    //  console.log("collection:",collection);
-    //
-    //  var progressHTML = "";
-    //  for (var i=0; i<approvalHistory.length; i++) {
-    //    var approvalPercent = (approvalHistory[i].approved === "3") ? 100 : (parseInt(approvalHistory[i].approved) * 30);
-    //    if (approvalPercent === 0 || !approvalPercent) { approvalPercent = 2; }
-    //    var d = new Date(parseInt(approvalHistory[i].timestamp));
-    //    var approvalDate = d.toLocaleString();
-    //
-    //    progressHTML += "<div class='progress'>";
-    //    if (approvalHistory[i].status.toLowerCase().indexOf("decline") !== -1) {
-    //      progressHTML += "<div class='progress-bar progress-bar-danger' role='progressbar' ";
-    //    }
-    //    else if (approvalHistory[i].status.toLowerCase().indexOf("approve") !== -1) {
-    //      progressHTML += "<div class='progress-bar progress-bar-success' role='progressbar' ";
-    //    }
-    //    else if (approvalHistory[i].status.toLowerCase().indexOf("recommitted") !== -1) {
-    //      progressHTML += "<div class='progress-bar progress-bar-warning' role='progressbar' ";
-    //    }
-    //    else {
-    //      progressHTML += "<div class='progress-bar' role='progressbar' ";
-    //    }
-    //    progressHTML += "aria-valuenow='"+ approvalPercent + "' ";
-    //    progressHTML += "aria-valuemin='0' aria-valuemax='100' ";
-    //    progressHTML += "style='width: "+ approvalPercent +"%;' >";
-    //    progressHTML += "</div>";
-    //    progressHTML += "</div>";
-    //    progressHTML += "<p class='help-block'>" + approvalHistory[i].status + " by " + approvalHistory[i].approval_name + " - " + approvalDate + "</p>";
-    //  }
-    //
-    //  var modal = $(this);
-    //
-    //  modal.find('.progress-modal-title').html("Approval Progress History - " + po);
-    //  modal.find('.progress-container').html(progressHTML);
-    //
-    //});
+
+    $scope.closeModal = function() {
+      $('#editModal').modal('hide');
+    };
+
+    $scope.saveUpdate = function() {
+      // grab values and format into post
+      var messageToPost = {
+        "_id": $scope.currentRow._id,
+        "appName": $scope.modalAppName.appName,
+        "msgCode": $scope.modalMessageCode,
+        "message": $scope.modalMessage,
+        "messageInternal": $scope.modalInternalMessage,
+        "messageLevel": $scope.modalMessageLevel,
+        "language": $scope.modalLanguage
+      };
+
+      // post object
+      MFAPIService.editMessage(messageToPost).then(function(result) {
+        console.log("editMessage call returned. result: ",result);
+      });
+
+      $('#editModal').modal('hide');
+      setTimeout($scope.pageReload,500);
+    };
+
+    $scope.deleteMessage = function() {
+      if ($scope.currentRow && $scope.currentRow.msgCode) {
+        var messageToDelete = {
+          "msgCode": $scope.currentRow.msgCode
+        };
+        MFAPIService.deleteMessage(messageToDelete).then(function(result) {
+          console.log("deleteMessage call returned. result: ",result);
+        });
+      }
+
+      $('#editModal').modal('hide');
+      $('#confirm-delete').modal('hide');
+      setTimeout($scope.pageReload,500);
+
+    };
+
+    $scope.pageReload = function() {
+      $state.go($state.current, {}, {reload: true});
+    };
+
+    $('#editModal').on('show.bs.modal', function () {
+
+      var msg = $scope.currentRow;
+      var msgCode = msg.msgCode;
+
+      var modal = $(this);
+      modal.msgCode = msgCode;
+
+      modal.find('.modal-title').html("Edit Message: <span>" + msgCode + "</span>");
+
+      $scope.modalMessageCode = msg.msgCode;
+      for (var i=0; i<$scope.appObjects.length; i++) {
+        if ($scope.appObjects[i].appName === msg.appName) {
+          $scope.modalAppName = $scope.appObjects[i];
+        }
+      }
+      $scope.modalMessage = msg.message;
+      $scope.modalInternalMessage = msg.messageInternal;
+      $scope.modalMessageLevel = msg.messageLevel;
+      $scope.modalLanguage = msg.language;
+    });
 
   }]);

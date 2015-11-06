@@ -21,9 +21,17 @@
             </div>
           </span>
         <th colspan="5">
-          <input st-search="msgCode" placeholder="search Message Code" style="display:inline-block;" name="searchInput.msgCodeSearch" ng-model="searchInput.msgCodeSearch" />
+          <input st-search="msgCode" placeholder="search exact Message Code" style="display:inline-block;" name="searchInput.msgCodeSearch" ng-model="searchInput.msgCodeSearch" />
           <input st-search="appName" placeholder="search App Name" name="searchInput.appNameSearch" ng-model="searchInput.appNameSearch" />
           <input st-search="internalMessage" placeholder="search Internal Message" name="searchInput.internalMessageSearch" ng-model="searchInput.internalMessageSearch" />
+          <select st-search="messageLevel" ng-model="searchInput.messageLevelSearch" name="searchInput.messageLevelSearch">
+            <option value="">All</option>
+            <option value="Message">Message</option>
+            <option value="Info">Info</option>
+            <option value="Warning">Warning</option>
+            <option value="Error">Error</option>
+            <option value="Critical">Critical</option>
+          </select>
         </th>
       </tr>
       <tr class="column-headers" ng-hide="sc.initialLoad">
@@ -35,12 +43,12 @@
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="row in sc.displayed">
-        <td ng-click="selectRow({{row.msgCode}})">{{row.msgCode}}</td>
-        <td ng-click="selectRow({{row.msgCode}})">{{row.appName}}</td>
-        <td ng-click="selectRow({{row.msgCode}})">{{row.message}}</td>
-        <td ng-click="selectRow({{row.msgCode}})">{{row.messageLevel}}</td>
-        <td ng-click="selectRow({{row.msgCode}})"><span ng-show="row.msgCode">{{(row.language) ? row.language : "En"}}</span></td>
+      <tr ng-repeat="row in sc.displayed" class="row-highlight">
+        <td ng-click="selectRow({{row}})">{{row.msgCode}}</td>
+        <td ng-click="selectRow({{row}})">{{row.appName}}</td>
+        <td ng-click="selectRow({{row}})">{{row.message}}</td>
+        <td ng-click="selectRow({{row}})">{{row.messageLevel}}</td>
+        <td ng-click="selectRow({{row}})"><span ng-show="row.msgCode">{{(row.language) ? row.language : "En"}}</span></td>
       </tr>
       <tfoot>
       <tr>
@@ -54,5 +62,56 @@
       <tr ng-show="sc.hasError"><td colspan="2">API Request Error</td></tr>
       </tfoot>
     </table>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" ng-click="closeModal()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Edit Message</h4>
+          </div>
+          <form class="modal-body form-group">
+            <input ng-model="modalMessageCode" type="text" aria-describedby="helpBlock1" class="form-control" rows="2" disabled />
+            <span id="helpBlock1" class="help-block">Message Code</span>
+            <select name="modalAppName" ng-model="modalAppName" ng-options="appObj.appName for appObj in appObjects" aria-describedby="helpBlock2" class="form-control" rows="2"></select>
+            <span id="helpBlock2" class="help-block">App Name</span>
+            <textarea ng-model="modalMessage" type="text" aria-describedby="helpBlock3" class="form-control" rows="2"></textarea>
+            <span id="helpBlock3" class="help-block">Message</span>
+            <textarea ng-model="modalInternalMessage" type="text" aria-describedby="helpBlock4" class="form-control" rows="2"></textarea>
+            <span id="helpBlock4" class="help-block">Internal Message</span>
+            <select name="modalMessageLevel" ng-model="modalMessageLevel" aria-describedby="helpBlock5" class="form-control" rows="2">
+              <option value="Message">Message</option>
+              <option value="Info">Info</option>
+              <option value="Warning">Warning</option>
+              <option value="Error">Error</option>
+              <option value="Critical">Critical</option>
+            </select>
+            <span id="helpBlock5" class="help-block">Message Level</span>
+            <select name="modalLanguage" ng-model="modalLanguage" aria-describedby="helpBlock6" class="form-control" rows="2" ng-options="language for language in languages"></select>
+            <span id="helpBlock6" class="help-block">Language</span>
+          </form>
+          <div class="modal-footer">
+            <button ng-click="closeModal()" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-default btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#confirm-delete">Delete</button>
+            <button ng-click="saveUpdate()" type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            Are you sure you want to delete this message?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <a ng-click="deleteMessage()" class="btn btn-danger btn-ok">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
