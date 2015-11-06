@@ -8,23 +8,49 @@
  * Controller of the messageFactoryApp
  */
 angular.module('messageFactoryApp')
-  .controller('MessagesCtrl', ['$scope', '$window', '$location', 'config_ui', '$timeout', 'MFAPIService', function ($scope, $window, $location, config_ui, $timeout, MFAPIService) {
+  .controller('MessagesCtrl', ['$scope', '$window', '$location', '$state', 'config_ui', '$timeout', 'MFAPIService', function ($scope, $window, $location, $state, config_ui, $timeout, MFAPIService) {
 
-    var start = 0;
-    var max = 1000;
-    $scope.loadMessages = function() {
-      var params = {
-        messageLevel: 'Message',
-        orderBy: 'msgCode',
-        order: 'asc'
-      };
-      MFAPIService.getMessages(start,max,params).then(function(result) {
-        $scope.messages = result.data;
-        start += 10;
+    $scope.loadPageOptions = function() {
+      MFAPIService.getAppNames().then(function(result) {
+        $scope.appObjects = result.data.results;
+      });
+      MFAPIService.getLanguages().then(function(result) {
+        $scope.languages = result.data;
       });
     };
+    $scope.loadPageOptions();
 
-    $scope.loadMessages();
+    var ctrl = this;
+    this.displayed = [];
+
+    this.callServer = function callServer(tableState) {
+      console.log("callServer(); tableState: ",tableState);
+      var start = 0;
+      var max = 1000;
+
+      $scope.loadMessages = function() {
+        var orderBy = "";
+        var order = "";
+        if (tableState) {
+          if (tableState.sort) {
+            if (tableState.sort.predicate) {
+              orderBy = tableState.sort.predicate;
+              order = (tableState.sort.reverse) ? "desc" : "asc";
+            }
+          }
+        }
+        var params = {};
+        if (orderBy) { params.orderBy = orderBy; }
+        if (order) { params.order = order; }
+        params.messageLevel = 'Message';
+        MFAPIService.getMessages(start,max,params).then(function(result) {
+          $scope.messages = result.data;
+          ctrl.displayed = result.data;
+        });
+      };
+
+      $scope.loadMessages();
+    };
 
 
     $scope.$on('$destroy', function() {
@@ -41,116 +67,98 @@ angular.module('messageFactoryApp')
      * @description select a message
      */
       // used to select a table row - not sure where this will go
-    $scope.selectRow = function(row_msgcode) {
-      console.log("Message " + row_msgcode + " selected. Go to either edit or detail page.");
-      //$location.url("/main/detail?po_num="+row_po);
+    $scope.selectRow = function(row) {
+      console.log("Message " + row + " selected. Go to either edit or detail page.",row);
+      $scope.currentRow = row;
+      $('#editModal').modal('show');
     };
 
     $scope.numPerPage = 10;
 
-
-    //$scope.closeProgressModal = function() {
-    //  $('#progressModal').modal('hide');
-    //};
-    //
-    //$scope.closeModal = function() {
-    //  $scope.commentText = "";
-    //  $('#myModal').modal('hide');
-    //};
-
-    //$scope.saveComments = function() {
-    //  // grab modal's po, decision type, comments
-    //  var po = $('.modal-title span').text();
-    //  var decision = $('.modal .btn-primary').text().toLowerCase();
-    //  var comment = $scope.commentText;
-    //  console.log("Log comment: " + comment + " for " + decision + " of po number: " + po);
-    //
-    //  var commentObj = {};
-    //  commentObj.comment = comment;
-    //  commentObj.name = "Tony Brown";
-    //  commentObj.timestamp = Date.now();
-    //  if (decision === "approve") {
-    //    POAPIService.updateProperty($scope.poCollection,po,'approver_comments',commentObj,'append');
-    //    $scope.closeModal();
-    //    $scope.approvePO(po);
-    //  }
-    //  else if (decision === "decline") {
-    //    POAPIService.updateProperty($scope.poCollection,po,'decline_reason',commentObj,'append');
-    //    $scope.closeModal();
-    //    $scope.declinePO(po);
-    //  }
-    //  else {
-    //    console.error("something went wrong in modal, we don't know if we are approving or declining");
-    //    // @TODO close and clear modal and show some error?
-    //  }
-    //
-    //  // clear data in $scope.commentText and rest of form?
-    //  //$('#myModal').modal('hide'); // hide whenever done
-    //};
-
-    //$('#progressModal').on('show.bs.modal', function (event) {
-    //  var button = $(event.relatedTarget); // Button that triggered the modal
-    //  var po = button.data('po'); // po number
-    //  var collection = POAPIService.getPOByNumber($scope.poCollection,po);
-    //  var approvalHistory = collection.approval_history;
-    //  console.log("collection:",collection);
-    //
-    //  var progressHTML = "";
-    //  for (var i=0; i<approvalHistory.length; i++) {
-    //    var approvalPercent = (approvalHistory[i].approved === "3") ? 100 : (parseInt(approvalHistory[i].approved) * 30);
-    //    if (approvalPercent === 0 || !approvalPercent) { approvalPercent = 2; }
-    //    var d = new Date(parseInt(approvalHistory[i].timestamp));
-    //    var approvalDate = d.toLocaleString();
-    //
-    //    progressHTML += "<div class='progress'>";
-    //    if (approvalHistory[i].status.toLowerCase().indexOf("decline") !== -1) {
-    //      progressHTML += "<div class='progress-bar progress-bar-danger' role='progressbar' ";
-    //    }
-    //    else if (approvalHistory[i].status.toLowerCase().indexOf("approve") !== -1) {
-    //      progressHTML += "<div class='progress-bar progress-bar-success' role='progressbar' ";
-    //    }
-    //    else if (approvalHistory[i].status.toLowerCase().indexOf("recommitted") !== -1) {
-    //      progressHTML += "<div class='progress-bar progress-bar-warning' role='progressbar' ";
-    //    }
-    //    else {
-    //      progressHTML += "<div class='progress-bar' role='progressbar' ";
-    //    }
-    //    progressHTML += "aria-valuenow='"+ approvalPercent + "' ";
-    //    progressHTML += "aria-valuemin='0' aria-valuemax='100' ";
-    //    progressHTML += "style='width: "+ approvalPercent +"%;' >";
-    //    progressHTML += "</div>";
-    //    progressHTML += "</div>";
-    //    progressHTML += "<p class='help-block'>" + approvalHistory[i].status + " by " + approvalHistory[i].approval_name + " - " + approvalDate + "</p>";
-    //  }
-    //
-    //  var modal = $(this);
-    //
-    //  modal.find('.progress-modal-title').html("Approval Progress History - " + po);
-    //  modal.find('.progress-container').html(progressHTML);
-    //
-    //});
-    //
-    //$('#myModal').on('show.bs.modal', function (event) {
-    //  var button = $(event.relatedTarget); // Button that triggered the modal
-    //  var decision = button.data('decision'); // Extract info from data-* attributes
-    //  var po = button.data('po'); // need this po number to display and delete record
-    //  var approver = "Tony Brown";
-    //  var dateString = (new Date()).toLocaleString();
-    //  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-    //  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-    //  var modal = $(this);
-    //  modal.po = po;
-    //  modal.find('.help-block').html("Comment added by " + approver + " at " + dateString);
-    //  if (decision.toLowerCase() === "approve") {
-    //    modal.find('.modal-title').html("Approve Purchase Order: <span>" + po + "</span>");
-    //    modal.find('.modal-body input').val(decision);
-    //    modal.find('.btn-primary').text("Approve");
-    //  }
-    //  else if (decision.toLowerCase() === "decline") {
-    //    modal.find('.modal-title').html("Decline Purchase Order: <span>" + po + "</span>");
-    //    modal.find('.modal-body input').val(decision);
-    //    modal.find('.btn-primary').text("Decline");
+    //let tour = new Shepherd.Tour({
+    //  defaults: {
+    //    classes: 'shepherd-theme-square-dark'
     //  }
     //});
+    //tour.addStep('example', {
+    //  title: 'Tab Navigation',
+    //  text: 'Select All to see both Errors and Messages',
+    //  attachTo: '.navbar-nav bottom',
+    //  advanceOn: '.docs-link click'
+    //});
+    //tour.addStep('example', {
+    //  title: 'Messages/Errors Table',
+    //  text: 'Here you will see all your messages',
+    //  attachTo: '.table-container bottom'
+    //});
+    //
+    //tour.start();
+
+    $scope.closeModal = function() {
+      $('#editModal').modal('hide');
+    };
+
+    $scope.saveUpdate = function() {
+      // grab values and format into post
+      var messageToPost = {
+        "_id": $scope.currentRow._id,
+        "appName": $scope.modalAppName.appName,
+        "msgCode": $scope.modalMessageCode,
+        "message": $scope.modalMessage,
+        "messageInternal": $scope.modalInternalMessage,
+        "messageLevel": $scope.modalMessageLevel,
+        "language": $scope.modalLanguage
+      };
+
+      // post object
+      MFAPIService.editMessage(messageToPost).then(function(result) {
+        console.log("editMessage call returned. result: ",result);
+      });
+
+      $('#editModal').modal('hide');
+      setTimeout($scope.pageReload,500);
+    };
+
+    $scope.deleteMessage = function() {
+      if ($scope.currentRow && $scope.currentRow.msgCode) {
+        var messageToDelete = {
+          "msgCode": $scope.currentRow.msgCode
+        };
+        MFAPIService.deleteMessage(messageToDelete).then(function(result) {
+          console.log("deleteMessage call returned. result: ",result);
+        });
+      }
+
+      $('#editModal').modal('hide');
+      $('#confirm-delete').modal('hide');
+      setTimeout($scope.pageReload,500);
+
+    };
+
+    $scope.pageReload = function() {
+      $state.go($state.current, {}, {reload: true});
+    };
+
+    $('#editModal').on('show.bs.modal', function () {
+
+      var msg = $scope.currentRow;
+      var msgCode = msg.msgCode;
+
+      var modal = $(this);
+      modal.msgCode = msgCode;
+
+      modal.find('.modal-title').html("Edit Message: <span>" + msgCode + "</span>");
+
+      $scope.modalMessageCode = msg.msgCode;
+      for (var i=0; i<$scope.appObjects.length; i++) {
+        if ($scope.appObjects[i].appName === msg.appName) {
+          $scope.modalAppName = $scope.appObjects[i];
+        }
+      }
+      $scope.modalMessage = msg.message;
+      $scope.modalInternalMessage = msg.messageInternal;
+      $scope.modalMessageLevel = msg.messageLevel;
+      $scope.modalLanguage = msg.language;
+    });
 
   }]);

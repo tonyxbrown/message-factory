@@ -162,6 +162,43 @@ angular.module('messageFactoryApp')
       },
 
       /**
+       * @name editMessage
+       * @memberof MFAPIService
+       * @param message
+       * @returns {Function|promise}
+       * @description Method to edit 1 existing message
+       * If creating with multiple language messages, do something like:
+       * 'message': 'something english',
+       * 'CHT': 'something chinese',
+       * etc.
+       */
+      editMessage: function(message) {
+        var deferred = $q.defer();
+        var postData = message;
+        console.log("adding request data: ",postData);
+        var req = {
+          method: 'PUT',
+          url: config_backend.base_url + config_backend.mf_admin_editmessage_api,
+          data: $.param(postData),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        };
+
+        $http(req).then(function successCallback(result) {
+          deferred.resolve({
+            data: result.data
+          });
+        }, function errorCallback(result) {
+          console.error("error with API request:",result);
+          deferred.resolve({
+            data: null,
+            error: "API Request Error"
+          });
+        });
+
+        return deferred.promise;
+      },
+
+      /**
        * @name createApp
        * @memberof MFAPIService
        * @param appInfo
