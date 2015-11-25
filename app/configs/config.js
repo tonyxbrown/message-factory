@@ -1,7 +1,7 @@
 window.configOptions = {
   'environment': 'dev',
-  'ajaxURL': 'http://qa1.wetdesign.com:82/feedback',
+  'ajaxURL': 'https://qa-api.wetdesign.com/feedback',
   'html2canvasURL': '../plugins/feedbackjs/html2canvas.js',
-  'base_url': 'http://qa1.wetdesign.com:1000/',
+  'base_url': 'https://qa-api.wetdesign.com/mf',
   'loglevel': 3
 }
