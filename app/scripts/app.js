@@ -52,7 +52,7 @@ angular
  */
   .filter('messageCodeFormat',
   [ '$filter',
-    function(filter) {
+    function() {
       return function(msgCode) {
         if (!msgCode) {
           return "";
