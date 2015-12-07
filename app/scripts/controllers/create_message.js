@@ -44,7 +44,7 @@ angular.module('messageFactoryApp')
           console.log("createMessages call returned. result: ",result);
           $scope.appResults = result.data;
           if (!$scope.create_another) {
-            $location.url("/main");
+            $location.url("/search");
           }
           else { // otherwise stay here
             var prevSelectedApp = $scope.selectedApp;
