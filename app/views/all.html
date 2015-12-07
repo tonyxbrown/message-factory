@@ -12,7 +12,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="row in ac.displayed" class="row-highlight">
-      <td ng-click="selectRow({{row}})">{{row.msgCode}}</td>
+      <td ng-click="selectRow({{row}})">{{row.msgCode | messageCodeFormat}}</td>
       <td ng-click="selectRow({{row}})">{{row.appName}}</td>
       <td ng-click="selectRow({{row}})">{{row.message}}</td>
       <td ng-click="selectRow({{row}})">{{row.messageLevel}}</td>

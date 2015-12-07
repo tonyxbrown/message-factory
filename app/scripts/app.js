@@ -45,6 +45,28 @@ angular
     'mf_admin_delete_api': 'admin/deleteMSG'
   })
 /**
+ * @ngdoc Filter
+ * @name messageCodeFormat
+ * @description
+ * Will take message code format as stored, ie. "11304" and change to "113.04"
+ */
+  .filter('messageCodeFormat',
+  [ '$filter',
+    function(filter) {
+      return function(msgCode) {
+        if (!msgCode) {
+          return "";
+        }
+        var msgCodeToReturn = msgCode.toString();
+        if (msgCodeToReturn.length > 3) {
+          return msgCodeToReturn.substring(0,3) + "." + msgCodeToReturn.substring(3,msgCodeToReturn.length);
+        }
+        else {
+          return msgCodeToReturn;
+        }
+      };
+    } ])
+/**
  * @ngdoc Controller
  * @name AppCtrl
  * @description
