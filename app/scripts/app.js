@@ -156,25 +156,8 @@ angular
   //}])
   .config(function($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise("/main");
-    $urlRouterProvider.when('/main', '/main/all');
+    $urlRouterProvider.otherwise("/search");
     $stateProvider
-      .state('main', {
-        url: "/main",
-        templateUrl: "views/main.html"
-      })
-      .state('main.all', {
-        url: "/all",
-        templateUrl: "views/all.html"
-      })
-      .state('main.errors', {
-        url: "/errors",
-        templateUrl: "views/errors.html"
-      })
-      .state('main.messages', {
-        url: "/messages",
-        templateUrl: "views/messages.html"
-      })
       .state('createmessage', {
         url: "/createmessage",
         templateUrl: "views/create_message.html"
