@@ -16,6 +16,11 @@ angular.module('messageFactoryApp')
       });
       MFAPIService.getLanguages().then(function(result) {
         $scope.languages = result.data;
+        var languagesReverse = {};
+        for (var key in result.data) {
+          languagesReverse[result.data[key]] = key;
+        }
+        $scope.languagesReverse = languagesReverse;
       });
     };
     $scope.loadPageOptions();
@@ -93,6 +98,17 @@ angular.module('messageFactoryApp')
         }
       }
       return false;
+    };
+
+    /**
+     * @name SearchCtrl.langLookup
+     * @param langCode
+     * @description find the long name for a language given the short language code
+     * ie. ENU -> English_(United_States)
+     */
+    $scope.langLookup = function(langCode) {
+      return ($scope.languagesReverse && $scope.languagesReverse[langCode]) ?
+        $scope.languagesReverse[langCode] : langCode;
     };
 
     /**

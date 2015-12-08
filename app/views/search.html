@@ -48,7 +48,7 @@
         <td ng-click="selectRow({{row}})">{{row.appName}}</td>
         <td ng-click="selectRow({{row}})">{{row.message}}</td>
         <td ng-click="selectRow({{row}})">{{row.messageLevel}}</td>
-        <td ng-click="selectRow({{row}})"><span ng-show="row.msgCode">{{(row.language) ? row.language : "En"}}</span></td>
+        <td ng-click="selectRow({{row}})"><span ng-show="row.msgCode">{{langLookup(row.language)}}</span></td>
       </tr>
       <tfoot>
       <tr>
