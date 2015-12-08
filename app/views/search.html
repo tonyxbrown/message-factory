@@ -20,33 +20,22 @@
               <div class="sk-circle12 sk-circle"></div>
             </div>
           </span>
-        <!--<th colspan="5">-->
-          <!--<input st-search="msgCode" placeholder="search exact Message Code" style="display:inline-block;" name="searchInput.msgCodeSearch" ng-model="searchInput.msgCodeSearch" />-->
-          <!--<input st-search="appName" placeholder="search App Name" name="searchInput.appNameSearch" ng-model="searchInput.appNameSearch" />-->
-          <!--<input st-search="message" placeholder="search Message" name="searchInput.messageSearch" ng-model="searchInput.messageSearch" />-->
-          <!--<select st-search="messageLevel" ng-model="searchInput.messageLevelSearch" name="searchInput.messageLevelSearch">-->
-            <!--<option value="">All</option>-->
-            <!--<option value="Message">Message</option>-->
-            <!--<option value="Info">Info</option>-->
-            <!--<option value="Warning">Warning</option>-->
-            <!--<option value="Error">Error</option>-->
-            <!--<option value="Critical">Critical</option>-->
-          <!--</select>-->
-        <!--</th>-->
       </tr>
       <tr class="column-headers" ng-hide="sc.initialLoad">
-        <th st-sort="msgCode">Message Code</th>
+        <th st-sort="msgCode">Code</th>
         <th st-sort="appName">App Name</th>
         <th st-sort="message">Message</th>
-        <th st-sort="messageLevel">Message Level</th>
+        <th st-sort="messageInternal">Internal Message</th>
+        <th st-sort="messageLevel">Level</th>
         <th st-sort="language">Language</th>
       </tr>
       </thead>
       <tbody>
       <tr class="table-search-row">
-        <td><input st-search="msgCode" placeholder="search Message Code" style="display:inline-block;" name="searchInput.msgCodeSearch" ng-model="searchInput.msgCodeSearch" /></td>
-        <td><input st-search="appName" placeholder="search App Name" name="searchInput.appNameSearch" ng-model="searchInput.appNameSearch" /></td>
-        <td><input st-search="message" placeholder="search Message" name="searchInput.messageSearch" ng-model="searchInput.messageSearch" /></td>
+        <td><input st-search="msgCode" placeholder="code" style="display:inline-block;" name="searchInput.msgCodeSearch" ng-model="searchInput.msgCodeSearch" /></td>
+        <td><input st-search="appName" placeholder="app name" name="searchInput.appNameSearch" ng-model="searchInput.appNameSearch" /></td>
+        <td><input st-search="message" placeholder="message" name="searchInput.messageSearch" ng-model="searchInput.messageSearch" /></td>
+        <td><input st-search="messageInternal" placeholder="internal message" name="searchInput.messageInternalSearch" ng-model="searchInput.messageInternalSearch" /></td>
         <td><select st-search="messageLevel" ng-model="searchInput.messageLevelSearch" name="searchInput.messageLevelSearch">
           <option value="">All</option>
           <option value="Message">Message</option>
@@ -61,6 +50,7 @@
         <td ng-click="selectRow({{row}})">{{row.msgCode | messageCodeFormat}}</td>
         <td ng-click="selectRow({{row}})">{{row.appName}}</td>
         <td ng-click="selectRow({{row}})">{{row.message}}</td>
+        <td ng-click="selectRow({{row}})">{{row.messageInternal}}</td>
         <td ng-click="selectRow({{row}})">{{row.messageLevel}}</td>
         <td ng-click="selectRow({{row}})"><span ng-show="row.msgCode">{{langLookup(row.language)}}</span></td>
       </tr>
