@@ -17,17 +17,23 @@ angular.module('messageFactoryApp')
       });
       MFAPIService.getLanguages().then(function(result) {
         $scope.languages = result.data;
+        var languagesReverse = {};
+        for (var key in result.data) {
+          languagesReverse[result.data[key]] = key;
+        }
+        $scope.languagesReverse = languagesReverse;
       });
     };
 
     $scope.loadPageOptions();
 
     $scope.newMessageSubmit = function() {
-      console.log("newMessageSubmit(); create_another: ",$scope.create_another);
-      console.log("newMessageSubmit(); form options:",$scope.selectedApp.appName,$scope.selectedMsgCode,$scope.selectedInternalMessage,
-        $scope.selectedExternalMessage,$scope.selectedMessageLevel,$scope.selectedLanguage);
 
-      var languageToUse = ($scope.selectedLanguage || "ENU");
+      var languageToUse = ($scope.languages[$scope.selectedLanguage] || "ENU");
+
+      console.log("newMessageSubmit(); create_another: ",$scope.create_another);
+      console.log("newMessageSubmit(); form options:",$scope.selectedApp,$scope.selectedMsgCode,$scope.selectedInternalMessage,
+        $scope.selectedExternalMessage,$scope.selectedMessageLevel,languageToUse);
 
       if ($scope.selectedApp && $scope.selectedApp.appName && $scope.selectedMsgCode && $scope.selectedInternalMessage &&
         $scope.selectedExternalMessage && $scope.selectedMessageLevel) {
@@ -53,6 +59,9 @@ angular.module('messageFactoryApp')
             $scope.selectedApp = prevSelectedApp;
           }
         });
+      }
+      else {
+        console.log("Do not have required form data to submit new Message");
       }
     };
 
