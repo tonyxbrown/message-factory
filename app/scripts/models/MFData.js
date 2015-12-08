@@ -126,30 +126,14 @@ angular.module('messageFactoryApp')
        * @memberof MFAPIService
        * @param appName
        * @returns {Function|promise}
-       * @description Returns an excel to be downloaded
+       * @description Opens url in new window which should download the txt file to be opened in excel
        */
       exportExcel: function(appName) {
-        var deferred = $q.defer();
         console.log("adding appName to queryString: ",appName);
+
         var queryStringData = "appName=" + appName;
-        var req = {
-          method: 'GET',
-          url: config_backend.base_url + config_backend.mf_admin_export + "?" + queryStringData
-        };
+        window.open(config_backend.base_url + config_backend.mf_admin_export + "?" + queryStringData);
 
-        $http(req).then(function successCallback(result) {
-          deferred.resolve({
-            data: result.data
-          });
-        }, function errorCallback(result) {
-          console.error("error with API request:",result);
-          deferred.resolve({
-            data: result,
-            error: "API Request Error"
-          });
-        });
-
-        return deferred.promise;
       },
 
       /**
