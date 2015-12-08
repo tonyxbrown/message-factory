@@ -122,6 +122,21 @@ angular.module('messageFactoryApp')
       },
 
       /**
+       * @name exportExcel
+       * @memberof MFAPIService
+       * @param appName
+       * @returns {Function|promise}
+       * @description Opens url in new window which should download the txt file to be opened in excel
+       */
+      exportExcel: function(appName) {
+        console.log("adding appName to queryString: ",appName);
+
+        var queryStringData = "appName=" + appName;
+        window.open(config_backend.base_url + config_backend.mf_admin_export + "?" + queryStringData);
+
+      },
+
+      /**
        * @name createMessages
        * @memberof MFAPIService
        * @param start
