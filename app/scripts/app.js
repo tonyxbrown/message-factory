@@ -42,7 +42,8 @@ angular
     'mf_admin_createapp_api': 'admin/createApp',
     'mf_appnames_api': 'admin/findAllApp',
     'mf_languages_api': 'admin/findAllLanguage',
-    'mf_admin_delete_api': 'admin/deleteMSG'
+    'mf_admin_delete_api': 'admin/deleteMSG',
+    'mf_admin_export': 'admin/export'
   })
 /**
  * @ngdoc Filter

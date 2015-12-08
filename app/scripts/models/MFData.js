@@ -122,6 +122,37 @@ angular.module('messageFactoryApp')
       },
 
       /**
+       * @name exportExcel
+       * @memberof MFAPIService
+       * @param appName
+       * @returns {Function|promise}
+       * @description Returns an excel to be downloaded
+       */
+      exportExcel: function(appName) {
+        var deferred = $q.defer();
+        console.log("adding appName to queryString: ",appName);
+        var queryStringData = "appName=" + appName;
+        var req = {
+          method: 'GET',
+          url: config_backend.base_url + config_backend.mf_admin_export + "?" + queryStringData
+        };
+
+        $http(req).then(function successCallback(result) {
+          deferred.resolve({
+            data: result.data
+          });
+        }, function errorCallback(result) {
+          console.error("error with API request:",result);
+          deferred.resolve({
+            data: result,
+            error: "API Request Error"
+          });
+        });
+
+        return deferred.promise;
+      },
+
+      /**
        * @name createMessages
        * @memberof MFAPIService
        * @param start
