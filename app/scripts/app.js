@@ -20,7 +20,7 @@ angular
     'smart-table'
   ])
   .constant('config_ui', {
-    'projectcode': 'MFUI',
+    'projectcode': 'MF',
     'num_rows_tablet': 7,
     'num_rows_desktop': 13,
     'environment': window.configOptions.environment,
