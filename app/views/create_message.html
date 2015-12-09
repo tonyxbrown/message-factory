@@ -22,15 +22,25 @@
       <option value="Critical">Critical</option>
     </select>
 
-    <h3>User Message</h3>
-    <textarea ng-model="selectedExternalMessage"></textarea>
-
     <h3>Internal Message</h3>
     <textarea ng-model="selectedInternalMessage"></textarea>
+
+    <h3>User Message</h3>
+    <textarea ng-model="selectedExternalMessage"></textarea>
 
     <h3>Language</h3>
     <select name="selectedLanguage" ng-model="selectedLanguage" ng-options="language for language in languagesReverse"></select>
     <span class="instruction-text">Optional. Default will be ENU - United States English</span>
+
+    <div class="additional-language" ng-repeat="additionalLanguage in additionalLanguages">
+      <hr>
+      <h3>User Message</h3>
+      <textarea ng-model="selectedExternalMessages[additionalLanguage]"></textarea>
+      <h3>Language</h3>
+      <select name="selectedLanguage" ng-model="selectedLanguages[additionalLanguage]" ng-options="language for language in languagesReverse"></select>
+    </div>
+
+    <input type="submit" value="Add Language" class="po-button add-language-button" ng-click="addAnotherLanguage()" />
 
     <br>
     <input type="submit" value="Create" class="po-button" ng-click="newMessageSubmit()" />
