@@ -33,7 +33,6 @@
       <tbody>
       <tr class="table-search-row">
         <td><input st-search="msgCode" placeholder="code" style="display:inline-block;" name="searchInput.msgCodeSearch" ng-model="searchInput.msgCodeSearch" /></td>
-        <!--<td><input st-search="appName" placeholder="app name" name="searchInput.appNameSearch" ng-model="searchInput.appNameSearch" /></td>-->
         <td><select st-search="appName" ng-model="searchInput.appNameSearch" name="searchInput.appNameSearch" ng-options="appObj.appName for appObj in appObjects track by appObj.appName">
           <option value=""></option>
         </select></td>
@@ -51,7 +50,7 @@
         </select></td>
       </tr>
       <tr ng-repeat="row in sc.displayed" class="row-highlight">
-        <td ng-click="selectRow({{row}})">{{row.msgCode | messageCodeFormat}}</td>
+        <td ng-click="selectRow({{row}})">{{row.msgCode}}</td>
         <td ng-click="selectRow({{row}})">{{row.appName}}</td>
         <td ng-click="selectRow({{row}})">{{row.message}}</td>
         <td ng-click="selectRow({{row}})">{{row.messageInternal}}</td>

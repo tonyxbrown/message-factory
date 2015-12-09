@@ -47,7 +47,7 @@ angular.module('messageFactoryApp')
 
       if ($scope.selectedApp && $scope.selectedApp.appName && $scope.selectedMsgCode && $scope.selectedInternalMessage &&
         $scope.selectedExternalMessage && $scope.selectedMessageLevel) {
-        var messageCodeConcat = parseInt($scope.selectedApp.prefix.toString() + $scope.selectedMsgCode.toString());
+        var messageCodeConcat = $scope.selectedApp.prefix.toString() + "." + $scope.selectedMsgCode.toString();
         var messageToPost = {
           "appName": $scope.selectedApp.appName,
           "msgCode": messageCodeConcat,

@@ -21,7 +21,7 @@ angular.module('messageFactoryApp')
         var deferred = $q.defer();
         var queryStringData = "";
         if (params) {
-          if (params.msgCode) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "msgCode=" + params.msgCode.replace(/\./g,''); }
+          if (params.msgCode) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "msgCode=" + params.msgCode; }
           if (params.appName) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "appName=" + params.appName; }
           if (params.messageLevel) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "messageLevel=" + params.messageLevel; }
           if (params.language) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "language=" + params.language; }
