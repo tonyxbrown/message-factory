@@ -16,7 +16,6 @@ angular.module('messageFactoryApp')
 
     $scope.loadPageOptions = function() {
       MFAPIService.getAppNames().then(function(result) {
-        console.log("result:",result);
         $scope.appObjects = result.data.results;
       });
       MFAPIService.getLanguages().then(function(result) {
@@ -32,7 +31,6 @@ angular.module('messageFactoryApp')
     $scope.loadPageOptions();
 
     $scope.addAnotherLanguage = function() {
-      console.log("addAnotherLanguage()");
       var lang_id = $scope.additionalLanguages.length + 1;
       $scope.additionalLanguages.push(lang_id);
     };
@@ -41,7 +39,6 @@ angular.module('messageFactoryApp')
 
       var languageToUse = ($scope.languages[$scope.selectedLanguage] || "ENU");
 
-      console.log("newMessageSubmit(); create_another: ",$scope.create_another);
       console.log("newMessageSubmit(); form options:",$scope.selectedApp,$scope.selectedMsgCode,$scope.selectedInternalMessage,
         $scope.selectedExternalMessage,$scope.selectedMessageLevel,languageToUse);
 
