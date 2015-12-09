@@ -33,19 +33,22 @@
       <tbody>
       <tr class="table-search-row">
         <td><input st-search="msgCode" placeholder="code" style="display:inline-block;" name="searchInput.msgCodeSearch" ng-model="searchInput.msgCodeSearch" /></td>
-        <td><input st-search="appName" placeholder="app name" name="searchInput.appNameSearch" ng-model="searchInput.appNameSearch" /></td>
-        <td><input st-search="message" placeholder="message" name="searchInput.messageSearch" ng-model="searchInput.messageSearch" /></td>
-        <!--<td><input st-search="messageInternal" placeholder="internal message" name="searchInput.messageInternalSearch" ng-model="searchInput.messageInternalSearch" /></td>-->
-        <td></td>
+        <!--<td><input st-search="appName" placeholder="app name" name="searchInput.appNameSearch" ng-model="searchInput.appNameSearch" /></td>-->
+        <td><select st-search="appName" ng-model="searchInput.appNameSearch" name="searchInput.appNameSearch" ng-options="appObj.appName for appObj in appObjects track by appObj.appName">
+          <option value=""></option>
+        </select></td>
+        <td colspan="2"><input st-search="message" placeholder="message" name="searchInput.messageSearch" ng-model="searchInput.messageSearch" /></td>
         <td><select st-search="messageLevel" ng-model="searchInput.messageLevelSearch" name="searchInput.messageLevelSearch">
-          <option value="">All</option>
+          <option value=""></option>
           <option value="Message">Message</option>
           <option value="Info">Info</option>
           <option value="Warning">Warning</option>
           <option value="Error">Error</option>
           <option value="Critical">Critical</option>
         </select></td>
-        <td></td>
+        <td><select st-search="language" name="searchInput.languageSearch" ng-model="searchInput.languageSearch" ng-options="language for language in languagesReverse">
+          <option value=""></option>
+        </select></td>
       </tr>
       <tr ng-repeat="row in sc.displayed" class="row-highlight">
         <td ng-click="selectRow({{row}})">{{row.msgCode | messageCodeFormat}}</td>
@@ -76,14 +79,10 @@
             <h4 class="modal-title" id="myModalLabel">Edit Message</h4>
           </div>
           <form class="modal-body form-group">
+            <select name="modalAppName" ng-model="modalAppName" ng-options="appObj.appName for appObj in appObjects" aria-describedby="helpBlock2" class="form-control" rows="2" disabled></select>
+            <span class="help-block help-block1">App Name</span>
             <input ng-model="modalMessageCode" type="text" aria-describedby="helpBlock1" class="form-control" rows="2" disabled />
-            <span id="helpBlock1" class="help-block">Message Code</span>
-            <select name="modalAppName" ng-model="modalAppName" ng-options="appObj.appName for appObj in appObjects" aria-describedby="helpBlock2" class="form-control" rows="2"></select>
-            <span id="helpBlock2" class="help-block">App Name</span>
-            <textarea ng-model="modalMessage" type="text" aria-describedby="helpBlock3" class="form-control" rows="2"></textarea>
-            <span id="helpBlock3" class="help-block">Message</span>
-            <textarea ng-model="modalInternalMessage" type="text" aria-describedby="helpBlock4" class="form-control" rows="2"></textarea>
-            <span id="helpBlock4" class="help-block">Internal Message</span>
+            <span class="help-block help-block2">Message Code</span>
             <select name="modalMessageLevel" ng-model="modalMessageLevel" aria-describedby="helpBlock5" class="form-control" rows="2">
               <option value="Message">Message</option>
               <option value="Info">Info</option>
@@ -91,9 +90,21 @@
               <option value="Error">Error</option>
               <option value="Critical">Critical</option>
             </select>
-            <span id="helpBlock5" class="help-block">Message Level</span>
-            <select name="modalLanguage" ng-model="modalLanguage" aria-describedby="helpBlock6" class="form-control" rows="2" ng-options="language for language in languages"></select>
-            <span id="helpBlock6" class="help-block">Language</span>
+            <span class="help-block help-block3">Message Level</span>
+            <textarea ng-model="modalInternalMessage" type="text" aria-describedby="helpBlock4" class="form-control" rows="2"></textarea>
+            <span class="help-block help-block4">Internal Message</span>
+            <textarea ng-model="modalMessage" type="text" aria-describedby="helpBlock3" class="form-control" rows="2"></textarea>
+            <span class="help-block help-block5">Message</span>
+            <select name="modalLanguage" ng-model="modalLanguage" aria-describedby="helpBlock6" class="form-control" rows="2" ng-options="language for language in languagesReverse"></select>
+            <span class="help-block help-block6">Language</span>
+            <div class="additional-language" ng-repeat="additionalLanguage in additionalLanguages">
+              <hr>
+              <textarea ng-model="modalMessages[additionalLanguage]" type="text" class="form-control" rows="2"></textarea>
+              <span class="help-block help-block5">Message</span>
+              <select name="modalLanguages" ng-model="modalLanguages[additionalLanguage]" class="form-control" rows="2" ng-options="language for language in languagesReverse"></select>
+              <span class="help-block help-block6">Language</span>
+            </div>
+            <button ng-click="addAnotherLanguage()" type="button" class="btn btn-default">Add Language</button>
           </form>
           <div class="modal-footer">
             <button ng-click="closeModal()" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

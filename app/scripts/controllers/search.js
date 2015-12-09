@@ -12,7 +12,12 @@ angular.module('messageFactoryApp')
 
     $scope.loadPageOptions = function() {
       MFAPIService.getAppNames().then(function(result) {
-        $scope.appObjects = result.data.results;
+        if (result && result.data && result.data.results) {
+          $scope.appObjects = result.data.results;
+        }
+        else {
+          $scope.appObjects = [];
+        }
       });
       MFAPIService.getLanguages().then(function(result) {
         $scope.languages = result.data;
@@ -50,7 +55,15 @@ angular.module('messageFactoryApp')
         }
       }
       if (tableState.search && tableState.search.predicateObject) {
-        params = tableState.search.predicateObject;
+        if (tableState.search.predicateObject.appName && tableState.search.predicateObject.appName === "?") {
+          delete tableState.search.predicateObject.appName;
+        }
+        if (tableState.search.predicateObject.language && tableState.search.predicateObject.language === "?") {
+          delete tableState.search.predicateObject.language;
+        }
+        if (tableState.search.predicateObject) {
+          params = tableState.search.predicateObject;
+        }
       }
       if (orderBy) { params.orderBy = orderBy; }
       if (order) { params.order = order; }
@@ -141,30 +154,59 @@ angular.module('messageFactoryApp')
 
     $scope.numPerPage = $scope.getRowMax();
 
+    $scope.additionalLanguages = [];
+    $scope.modalMessages = {};
+    $scope.modalLanguages = {};
+    $scope.addAnotherLanguage = function() {
+      console.log("search.js - addAnotherLanguage()");
+      var lang_id = $scope.additionalLanguages.length + 1;
+      $scope.additionalLanguages.push(lang_id);
+    };
 
     $scope.closeModal = function() {
       $('#editModal').modal('hide');
     };
 
     $scope.saveUpdate = function() {
-      // grab values and format into post
-      var messageToPost = {
-        "_id": $scope.currentRow._id,
-        "appName": $scope.modalAppName.appName,
-        "msgCode": $scope.modalMessageCode,
-        "message": $scope.modalMessage,
-        "messageInternal": $scope.modalInternalMessage,
-        "messageLevel": $scope.modalMessageLevel,
-        "language": $scope.modalLanguage
-      };
 
-      // post object
-      MFAPIService.editMessage(messageToPost).then(function(result) {
-        console.log("editMessage call returned. result: ",result);
-      });
+      var languageToUse = ($scope.languages[$scope.modalLanguage] || "ENU");
 
-      $('#editModal').modal('hide');
-      setTimeout($scope.pageReload,500);
+      if ($scope.modalAppName && $scope.modalAppName.appName && $scope.modalMessageCode && $scope.modalInternalMessage &&
+        $scope.modalMessage && $scope.modalMessageLevel) {
+        // grab values and format into post
+        var messageToPost = {
+          "_id": $scope.currentRow._id,
+          "appName": $scope.modalAppName.appName,
+          "msgCode": $scope.modalMessageCode,
+          "message": $scope.modalMessage,
+          "messageInternal": $scope.modalInternalMessage,
+          "messageLevel": $scope.modalMessageLevel,
+          "language": languageToUse
+        };
+
+        // Additional Languages logic - append to messageToPost
+        if ($scope.modalMessages) {
+          var count = 0;
+          for (var obj in $scope.additionalLanguages) {
+            console.log("add lang for: ", obj);
+            if ($scope.modalLanguages[(count + 1).toString()] && $scope.modalMessages[(count + 1).toString()]) {
+              messageToPost[$scope.languages[$scope.modalLanguages[(count + 1).toString()]]] = $scope.modalMessages[(count + 1).toString()];
+            }
+            count++;
+          }
+        }
+
+        // post object
+        MFAPIService.editMessage(messageToPost).then(function (result) {
+          console.log("editMessage call returned. result: ", result);
+        });
+
+        $('#editModal').modal('hide');
+        setTimeout($scope.pageReload, 500);
+      }
+      else {
+        console.log("Do not have required form data to update this Message");
+      }
     };
 
     $scope.deleteMessage = function() {
@@ -206,7 +248,7 @@ angular.module('messageFactoryApp')
       $scope.modalMessage = msg.message;
       $scope.modalInternalMessage = msg.messageInternal;
       $scope.modalMessageLevel = msg.messageLevel;
-      $scope.modalLanguage = msg.language;
+      $scope.modalLanguage = $scope.langLookup(msg.language);
     });
 
   }]);
