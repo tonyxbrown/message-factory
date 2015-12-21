@@ -15,13 +15,13 @@
 
     <h3>Message Level</h3>
     <select ng-model="selectedMessageLevel">
-      <option value="Message">Message</option>
-      <option value="Info">Info</option>
-      <option value="Warning">Warning</option>
-      <option value="Error">Error</option>
-      <option value="Critical">Critical</option>
+      <option value="Message" ng-show="selectedMsgCode > 0">Message</option>
+      <option value="Info" ng-show="selectedMsgCode > 0">Info</option>
+      <option value="Warning" ng-show="selectedMsgCode > 0">Warning</option>
+      <option value="Error" ng-show="selectedMsgCode < 0">Error</option>
+      <option value="Critical" ng-show="selectedMsgCode > 0">Critical</option>
     </select>
-    <span class="instruction-text">Note: Errors require negative message codes.</span>
+    <span class="instruction-text">Note: Errors require negative message codes, all others must be positive.</span>
 
     <h3>Internal Message</h3>
     <textarea ng-model="selectedInternalMessage"></textarea>
