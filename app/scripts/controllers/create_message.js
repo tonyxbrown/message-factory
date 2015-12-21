@@ -42,6 +42,20 @@ angular.module('messageFactoryApp')
       console.log("newMessageSubmit(); form options:",$scope.selectedApp,$scope.selectedMsgCode,$scope.selectedInternalMessage,
         $scope.selectedExternalMessage,$scope.selectedMessageLevel,languageToUse);
 
+      // Some Validation
+      if ($scope.selectedMessageLevel && $scope.selectedMessageLevel.toLowerCase() === "error") {
+        if ($scope.selectedMsgCode && $scope.selectedMsgCode > 0) {
+          console.error("Message code must be negative for errors");
+          return;
+        }
+      }
+      else if ($scope.selectedMessageLevel && $scope.selectedMessageLevel.toLowerCase() !== "error") {
+        if ($scope.selectedMsgCode && $scope.selectedMsgCode < 0) {
+          console.error("Message code must be positive for non-errors");
+          return;
+        }
+      }
+
       if ($scope.selectedApp && $scope.selectedApp.appName && $scope.selectedMsgCode && $scope.selectedInternalMessage &&
         $scope.selectedExternalMessage && $scope.selectedMessageLevel) {
         var messageCodeConcat = $scope.selectedApp.prefix.toString() + "." + $scope.selectedMsgCode.toString();
@@ -81,7 +95,7 @@ angular.module('messageFactoryApp')
         });
       }
       else {
-        console.log("Do not have required form data to submit new Message");
+        console.error("Do not have required form data to submit new Message");
       }
     };
 
