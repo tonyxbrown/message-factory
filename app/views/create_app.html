@@ -6,11 +6,11 @@
 
     <h3>App Name</h3>
     <input name="requestedAppName" ng-model="requestedAppName" />
-    <span class="instruction-text">Choose an App Name</span>
+    <span class="instruction-text">Choose an App Name. It should be a full descriptive name.<br>ex. Purchasing Database.</span>
 
     <h3>Request Number of Slots</h3>
     <input name="requestedSlots" ng-model="requestedSlots" />
-    <span class="instruction-text">Input the number of message slots desired.</span>
+    <span class="instruction-text">Input the number of message slots desired. Both positive and negative numbers will be reserved.<br>ex. Requesting 100 will reserve -100 through 100.</span>
 
     <br>
     <input type="submit" value="Create" class="po-button" ng-click="newAppSubmit()" />
