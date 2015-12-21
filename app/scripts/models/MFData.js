@@ -240,7 +240,7 @@ angular.module('messageFactoryApp')
           console.error("error with API request:",result);
           deferred.resolve({
             data: result,
-            error: "API Request Error"
+            error: result.data.error
           });
         });
 

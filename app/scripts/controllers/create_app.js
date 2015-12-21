@@ -38,6 +38,11 @@ angular.module('messageFactoryApp')
         };
         MFAPIService.createApp(messageToPost).then(function(result) {
           console.log("createApp call returned. result: ",result);
+          if (result.error) {
+            $scope.appResults.status = 'error';
+            $scope.appResults.error = result.error;
+            return;
+          }
           $scope.appResults = result.data;
         });
       }
