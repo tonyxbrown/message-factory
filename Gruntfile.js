@@ -22,7 +22,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-jsdoc');
-  grunt.loadNpmTasks('grunt-kss');
 
   // Configurable paths for the application
   var appConfig = {
@@ -165,22 +164,6 @@ module.exports = function (grunt) {
           template: 'node_modules/angular-jsdoc/template'
           //template: 'node_modules/grunt-jsdoc/node_modules/ink-docstrap/template',
           //configure: 'node_modules/grunt-jsdoc/node_modules/ink-docstrap/template/jsdoc.conf.json'
-        }
-      }
-    },
-
-    kss: {
-      //options: {
-      //  css: 'node_modules/grunt-kss/node_modules/kss/test/fixtures-styles/style.css'
-      //},        includeType: 'sass',
-      options: {
-        includeType: 'less',
-        includePath: '<%= yeoman.app %>/styles/{,*/}*.less',
-        css: 'wet_styles/kss-template.css',
-      },
-      dist: {
-        files: {
-          'styleguide': ['<%= yeoman.app %>/styles/{,*/}']
         }
       }
     },
@@ -473,10 +456,6 @@ module.exports = function (grunt) {
       'watch'
     ]);
   });
-
-  grunt.registerTask('styleguide', [
-    'kss'
-  ]);
 
   grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target) {
     grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');

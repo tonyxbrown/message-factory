@@ -191,10 +191,44 @@ angular.module('messageFactoryApp')
       editMessage: function(message) {
         var deferred = $q.defer();
         var postData = message;
-        console.log("adding request data: ",postData);
+        console.log("adding request data: ", postData);
         var req = {
           method: 'PUT',
           url: config_backend.base_url + config_backend.mf_admin_editmessage_api,
+          data: $.param(postData),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        };
+
+        $http(req).then(function successCallback(result) {
+          deferred.resolve({
+            data: result.data
+          });
+        }, function errorCallback(result) {
+          console.error("error with API request:",result);
+          deferred.resolve({
+            data: null,
+            error: "API Request Error"
+          });
+        });
+
+        return deferred.promise;
+      },
+
+      /**
+       * @name editApp
+       * @memberof MFAPIService
+       * @param message
+       * @returns {Function|promise}
+       * @description Method to edit 1 existing app
+       * Can only edit the contact email and contact phone number
+       */
+      editApp: function(message) {
+        var deferred = $q.defer();
+        var postData = message;
+        console.log("adding request data: ", postData);
+        var req = {
+          method: 'PUT',
+          url: config_backend.base_url + config_backend.mf_admin_editapp_api,
           data: $.param(postData),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         };

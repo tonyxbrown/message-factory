@@ -39,6 +39,7 @@ angular
     'mf_findallmessage_api': 'admin/findAllMessage',
     'mf_admin_createmessages_api': 'admin/createMessages',
     'mf_admin_editmessage_api': 'admin/updateMSG',
+    'mf_admin_editapp_api': 'admin/updateApp',
     'mf_admin_createapp_api': 'admin/createApp',
     'mf_appnames_api': 'admin/findAllApp',
     'mf_languages_api': 'admin/findAllLanguage',
@@ -174,5 +175,9 @@ angular
       .state('search', {
         url: "/search",
         templateUrl: "views/search.html"
+      })
+      .state('searchapps', {
+        url: "/searchapp",
+        templateUrl: "views/search_apps.html"
       });
   });
