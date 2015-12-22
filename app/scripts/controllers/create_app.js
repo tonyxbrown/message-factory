@@ -31,17 +31,13 @@ angular.module('messageFactoryApp')
     $scope.newAppSubmit = function() {
       console.log("newAppSubmit(); form options:",$scope.requestedAppName,$scope.requestedSlots);
 
-      if ($scope.requestedAppName && $scope.requestedSlots) {
+      if ($scope.requestedAppName && $scope.requestedSlots && $scope.requestedEmail && $scope.requestedPhone) {
         var messageToPost = {
           "appName": $scope.requestedAppName,
-          "request": $scope.requestedSlots
+          "request": $scope.requestedSlots,
+          "email": $scope.requestedEmail,
+          "phone": $scope.requestedPhone
         };
-        if ($scope.requestedEmail) {
-          messageToPost.requestedEmail = $scope.requestedEmail;
-        }
-        if ($scope.requestedPhone) {
-          messageToPost.requestedPhone = $scope.requestedPhone;
-        }
         MFAPIService.createApp(messageToPost).then(function(result) {
           console.log("createApp call returned. result: ",result);
           if (result.error) {
