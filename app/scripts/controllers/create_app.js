@@ -36,6 +36,12 @@ angular.module('messageFactoryApp')
           "appName": $scope.requestedAppName,
           "request": $scope.requestedSlots
         };
+        if ($scope.requestedEmail) {
+          messageToPost.requestedEmail = $scope.requestedEmail;
+        }
+        if ($scope.requestedPhone) {
+          messageToPost.requestedPhone = $scope.requestedPhone;
+        }
         MFAPIService.createApp(messageToPost).then(function(result) {
           console.log("createApp call returned. result: ",result);
           if (result.error) {
