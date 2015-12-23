@@ -8,6 +8,66 @@
  * Controller of the messageFactoryApp
  */
 angular.module('messageFactoryApp')
+/**
+ * @ngdoc Filter
+ * @name highlightFilter
+ * @description
+ * will add either highlight-term or highlight-term-secondary class to any text found to match the
+ * global input or filter input strings
+ */
+  .filter('highlightFilter', ['$sce',
+    function($sce) {
+      return function(input, terms) {
+
+        if (!input || !terms.globalInput) { return input; }
+
+        var replace_regex = null;
+        var newString = null;
+
+        // regex matching for exact string requests
+        if (terms.globalInput) {
+          if ((terms.globalInput.charAt(0) === "'" && terms.globalInput.charAt(terms.globalInput.length-1) === "'") ||
+            (terms.globalInput.charAt(0) === '"' && terms.globalInput.charAt(terms.globalInput.length-1) === '"') ) {
+            var globalInputClean = terms.globalInput.substring(1,terms.globalInput.length-1);
+            replace_regex = new RegExp(globalInputClean,"ig");
+            newString = input.replace(replace_regex,function(match) {
+              return "<span class='highlight-term'>"+match+"</span>";
+            });
+          }
+          else {
+            // do a match of any of the words
+            var globalInputSplit = terms.globalInput.split(" ");
+            globalInputSplit = globalInputSplit.join("|");
+            replace_regex = new RegExp(globalInputSplit,"ig");
+            newString = input.replace(replace_regex,function(match) {
+              return "<span class='highlight-term'>"+match+"</span>";
+            });
+          }
+        }
+        if (terms.searchFilter) {
+          if ((terms.searchFilter.charAt(0) === "'" && terms.searchFilter.charAt(terms.searchFilter.length-1) === "'") ||
+            (terms.searchFilter.charAt(0) === '"' && terms.searchFilter.charAt(terms.searchFilter.length-1) === '"') ) {
+            var searchFilterClean = terms.searchFilter.substring(1,terms.searchFilter.length-1);
+            replace_regex = new RegExp(searchFilterClean,"ig");
+            newString = newString.replace(replace_regex,function(match) {
+              return "<span class='highlight-term-secondary'>"+match+"</span>";
+            });
+          }
+          else {
+            // do a match of any of the words
+            var searchFilterSplit = terms.searchFilter.split(" ");
+            searchFilterSplit = searchFilterSplit.join("|");
+            replace_regex = new RegExp(searchFilterSplit,"ig");
+            newString = newString.replace(replace_regex,function(match) {
+              return "<span class='highlight-term-secondary'>"+match+"</span>";
+            });
+          }
+        }
+
+        return $sce.trustAsHtml(newString);
+
+      };
+    }])
   .controller('SearchCtrl', ['$scope', '$window', '$location', '$state', '$timeout', '$filter', 'config_ui', 'MFAPIService', function ($scope, $window, $location, $state, $timeout, $filter, config_ui, MFAPIService) {
 
     $scope.loadPageOptions = function() {
