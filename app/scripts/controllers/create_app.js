@@ -57,17 +57,19 @@ angular.module('messageFactoryApp')
         emailsArray.push($scope.requestedEmail);
         if ($scope.requestedEmails) {
           for (var obj in $scope.additionalEmails) {
+            console.log("add email for: ", obj);
             if ($scope.requestedEmails[(count+1).toString()]) {
               emailsArray.push($scope.requestedEmails[(count+1).toString()]);
             }
             count++;
           }
         }
-        var count = 0;
+        count = 0;
         var phonesArray = [];
         phonesArray.push($scope.requestedPhone);
         if ($scope.requestedPhones) {
-          for (var obj in $scope.additionalPhones) {
+          for (var phoneobj in $scope.additionalPhones) {
+            console.log("add phone for: ", phoneobj);
             if ($scope.requestedPhones[(count+1).toString()]) {
               phonesArray.push($scope.requestedPhones[(count+1).toString()]);
             }

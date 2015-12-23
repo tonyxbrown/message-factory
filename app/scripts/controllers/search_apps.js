@@ -73,11 +73,13 @@ angular.module('messageFactoryApp')
         };
 
         // Additional Emails/Phone Numbers logic - append to messageToPost
+        var count = 0;
+        var emailsArray = [];
+        var phoneArray = [];
         if ($scope.modalEmails) {
-          var count = 0;
-          var emailsArray = [];
           emailsArray.push($scope.modalEmail);
           for (var obj in $scope.modalEmails) {
+            console.log("add email for: ", obj);
             if ($scope.modalEmails[(count + 1).toString()]) {
               emailsArray.push($scope.modalEmails[(count + 1).toString()]);
             }
@@ -85,10 +87,10 @@ angular.module('messageFactoryApp')
           }
         }
         if ($scope.modalPhones) {
-          var count = 0;
-          var phoneArray = [];
+          count = 0;
           phoneArray.push($scope.modalPhone);
-          for (var obj in $scope.modalPhones) {
+          for (var phoneobj in $scope.modalPhones) {
+            console.log("add phone for: ", phoneobj);
             if ($scope.modalPhones[(count + 1).toString()]) {
               phoneArray.push($scope.modalPhones[(count + 1).toString()]);
             }
