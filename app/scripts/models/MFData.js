@@ -23,7 +23,16 @@ angular.module('messageFactoryApp')
         if (params) {
           if (params.msgCode) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "msgCode=" + params.msgCode; }
           if (params.appName) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "appName=" + params.appName; }
-          if (params.messageLevel) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "messageLevel=" + params.messageLevel; }
+          if (params.messageLevel) {
+            if (params.messageLevel.toLowerCase() === "message" || params.messageLevel.toLowerCase() === "info" ||
+              params.messageLevel.toLowerCase() === "warning" || params.messageLevel.toLowerCase() === "error" ||
+              params.messageLevel.toLowerCase() === "critical") {
+              queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "messageLevel=" + params.messageLevel;
+            }
+            else {
+              console.log("bad data in message level, do not append to api request");
+            }
+          }
           if (params.language) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "language=" + params.language; }
           if (params.message) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "queryString=" + params.message; }
           //if (params.messageInternal) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "messageInternal=" + params.messageInternal; }
