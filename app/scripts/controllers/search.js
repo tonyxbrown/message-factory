@@ -121,6 +121,9 @@ angular.module('messageFactoryApp')
         if (tableState.search.predicateObject.language && tableState.search.predicateObject.language === "?") {
           delete tableState.search.predicateObject.language;
         }
+        //if (tableState.search.predicateObject.language) {
+        //  tableState.search.predicateObject.language = tableState.search.predicateObject.language.replace("string:","");
+        //}
         if (tableState.search.predicateObject) {
           params = tableState.search.predicateObject;
         }

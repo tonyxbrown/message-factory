@@ -33,7 +33,7 @@ angular.module('messageFactoryApp')
               console.log("bad data in message level, do not append to api request");
             }
           }
-          if (params.language) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "language=" + params.language; }
+          if (params.language) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "lang=" + params.language.replace("string:",""); }
           if (params.message) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "queryString=" + params.message; }
           //if (params.messageInternal) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "messageInternal=" + params.messageInternal; }
           if (params.orderBy) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "orderBy=" + params.orderBy; }
@@ -41,7 +41,7 @@ angular.module('messageFactoryApp')
         }
         if (start) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "pageNumber=" + start; }
         if (number) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "perPage=" + 30; }
-        console.log("queryStringData: ", queryStringData);
+        console.log("queryStringData, params: ", queryStringData, params);
         var req = {
           method: 'GET',
           url: config_backend.base_url + config_backend.mf_api + "?" + queryStringData
