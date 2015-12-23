@@ -16,9 +16,21 @@
     <input name="requestedEmail" ng-model="requestedEmail" />
     <span class="instruction-text">Contact Email for this application, will be used for critical messages.</span>
 
+    <div class="additional-language" ng-repeat="additionalEmail in additionalEmails">
+      <h3>Contact Email</h3>
+      <input name="requestedEmails" ng-model="requestedEmails[additionalEmail]"></input>
+    </div>
+    <input type="submit" value="Add Email" class="po-button add-language-button" ng-click="addAnotherEmail()" />
+
     <h3>Phone</h3>
     <input name="requestedPhone" ng-model="requestedPhone" />
     <span class="instruction-text">Contact Phone for this application, will be sent a text for critical messages.</span>
+
+    <div class="additional-language" ng-repeat="additionalPhone in additionalPhones">
+      <h3>Contact Phone Number</h3>
+      <input name="requestedPhones" ng-model="requestedPhones[additionalPhone]"></input>
+    </div>
+    <input type="submit" value="Add Phone Number" class="po-button add-language-button" ng-click="addAnotherPhone()" />
 
     <br>
     <input type="submit" value="Create" class="po-button" ng-click="newAppSubmit()" />
