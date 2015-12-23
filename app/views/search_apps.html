@@ -16,8 +16,8 @@
         <td ng-click="selectRow({{row}})">{{row.appName}}</td>
         <td ng-click="selectRow({{row}})">{{row.availableSlot.length}}</td>
         <td ng-click="selectRow({{row}})">{{row.prefix}}</td>
-        <td ng-click="selectRow({{row}})">{{row.email}}</td>
-        <td ng-click="selectRow({{row}})">{{row.phone}}</td>
+        <td ng-click="selectRow({{row}})">{{row.email.join()}}</td>
+        <td ng-click="selectRow({{row}})">{{row.phone.join()}}</td>
       </tr>
       <tfoot>
         <tr ng-show="sac.displayed.length"><td colspan="2">No Records</td></tr>
