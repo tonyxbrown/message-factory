@@ -16,8 +16,8 @@
         <td ng-click="selectRow({{row}})">{{row.appName}}</td>
         <td ng-click="selectRow({{row}})">{{row.availableSlot.length}}</td>
         <td ng-click="selectRow({{row}})">{{row.prefix}}</td>
-        <td ng-click="selectRow({{row}})">{{row.email}}</td>
-        <td ng-click="selectRow({{row}})">{{row.phone}}</td>
+        <td ng-click="selectRow({{row}})">{{row.email.join(", ")}}</td>
+        <td ng-click="selectRow({{row}})">{{row.phone.join(", ")}}</td>
       </tr>
       <tfoot>
         <tr ng-show="sac.displayed.length"><td colspan="2">No Records</td></tr>
@@ -39,10 +39,20 @@
             <span class="help-block help-block2">Total Number of Available Slots</span>
             <input name="modalPrefix" ng-model="modalPrefix" aria-describedby="helpBlock5" class="form-control" rows="2" disabled />
             <span class="help-block help-block3">Prefix</span>
-            <textarea ng-model="modalEmail" type="text" aria-describedby="helpBlock4" class="form-control" rows="2"></textarea>
+            <input name="modalEmail" ng-model="modalEmail" aria-describedby="helpBlock4" class="form-control" rows="2" />
             <span class="help-block help-block4">Contact Email</span>
-            <textarea ng-model="modalPhone" type="text" aria-describedby="helpBlock3" class="form-control" rows="2"></textarea>
+            <div class="additional-language" ng-repeat="additionalEmail in additionalEmails">
+              <input ng-model="modalEmails[additionalEmail]" type="text" class="form-control" rows="2" />
+              <span class="help-block help-block4">Contact Email</span>
+            </div>
+            <button ng-click="addAnotherEmail()" type="button" class="btn btn-default">Add Email</button>
+            <input name="modalPhone" ng-model="modalPhone" aria-describedby="helpBlock3" class="form-control" rows="2" />
             <span class="help-block help-block5">Contact Phone Number</span>
+            <div class="additional-language" ng-repeat="additionalPhone in additionalPhones">
+              <input ng-model="modalPhones[additionalPhone]" type="text" class="form-control" rows="2" />
+              <span class="help-block help-block5">Contact Phone Number</span>
+            </div>
+            <button ng-click="addAnotherPhone()" type="button" class="btn btn-default">Add Phone Number</button>
           </form>
           <div class="modal-footer">
             <button ng-click="closeModal()" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
