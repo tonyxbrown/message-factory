@@ -121,6 +121,9 @@ angular.module('messageFactoryApp')
         if (tableState.search.predicateObject.language && tableState.search.predicateObject.language === "?") {
           delete tableState.search.predicateObject.language;
         }
+        //if (tableState.search.predicateObject.language) {
+        //  tableState.search.predicateObject.language = tableState.search.predicateObject.language.replace("string:","");
+        //}
         if (tableState.search.predicateObject) {
           params = tableState.search.predicateObject;
         }
@@ -132,6 +135,18 @@ angular.module('messageFactoryApp')
       var max = 1000;
       $scope.loadMessages = function(params) {
         MFAPIService.getMessages(start,max,params).then(function(result) {
+          // get current table language from dropdown
+          // loop through ctrl.displayed and add a displayMessage property to each
+          // set this displayMessage property to either .message or .whatever language selected
+          if (tableState && tableState.search && tableState.search.predicateObject && tableState.search.predicateObject.language) {
+            var langToUse = tableState.search.predicateObject.language.replace("string:","");
+            langToUse = $scope.languages[langToUse];
+            if (langToUse && langToUse !== "ENU") {
+              for (var i=0; i<result.data.length; i++) {
+                result.data[i].displayMessage = result.data[i][langToUse] || " ";
+              }
+            }
+          }
           ctrl.displayed = result.data;
           ctrl.isLoading = false;
         });
@@ -193,6 +208,14 @@ angular.module('messageFactoryApp')
      */
     $scope.selectRow = function(row) {
       console.log("Message " + row + " selected. Go to edit modal.",row);
+      for (var prop in row) {
+        if ($scope.languagesReverse[prop]) {
+          var lang_id = $scope.addAnotherLanguage();
+          $scope.modalMessages[lang_id] = row[prop];
+          $scope.modalLanguages[lang_id] = $scope.languagesReverse[prop];
+
+        }
+      }
       $scope.currentRow = row;
       $('#editModal').modal('show');
     };
@@ -221,6 +244,7 @@ angular.module('messageFactoryApp')
       console.log("search.js - addAnotherLanguage()");
       var lang_id = $scope.additionalLanguages.length + 1;
       $scope.additionalLanguages.push(lang_id);
+      return lang_id;
     };
 
     $scope.closeModal = function() {

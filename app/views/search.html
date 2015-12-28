@@ -52,7 +52,7 @@
       <tr ng-repeat="row in sc.displayed" class="row-highlight">
         <td ng-click="selectRow({{row}})">{{row.msgCode}}</td>
         <td ng-click="selectRow({{row}})">{{row.appName}}</td>
-        <td ng-click="selectRow({{row}})" ng-bind-html="row.message | highlightFilter:{globalInput: searchInput.messageSearch}"></td>
+        <td ng-click="selectRow({{row}})" ng-bind-html="(row.displayMessage || row.message) | highlightFilter:{globalInput: searchInput.messageSearch}"></td>
         <td ng-click="selectRow({{row}})" ng-bind-html="row.messageInternal | highlightFilter:{globalInput: searchInput.messageSearch}"></td>
         <td ng-click="selectRow({{row}})">{{row.messageLevel}}</td>
         <td ng-click="selectRow({{row}})"><span ng-show="row.msgCode">{{langLookup(row.language)}}</span></td>
