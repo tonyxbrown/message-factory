@@ -2,5 +2,5 @@
 {
   "emailNotifications": false,
   "inappNotifications": true,
-  "accountLevel": "Purchasing Manager"
+  "accountLevel": "Administrator"
 }

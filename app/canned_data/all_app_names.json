@@ -1,7 +1,40 @@
-
-[
-  "PDB",
-  "SS",
-  "POA",
-  "POAA"
-]
+{ "results":
+  [
+    {
+      "_id": "102340123844043043",
+      "appName": "AAA",
+      "availableSlot": [1,2,3,4,5],
+      "email": ["email@email.com"],
+      "max": 5,
+      "phone": ["555-555-5555"],
+      "prefix": 101
+    },
+    {
+      "_id": "102340123844043044",
+      "appName": "BB",
+      "availableSlot": [1,2,3,4,5],
+      "email": ["email@email.com"],
+      "max": 5,
+      "phone": ["555-555-5555"],
+      "prefix": 102
+    },
+    {
+      "_id": "102340123844043045",
+      "appName": "CCC",
+      "availableSlot": [1,2,3,4,5],
+      "email": ["email@email.com"],
+      "max": 5,
+      "phone": ["555-555-5555"],
+      "prefix": 103
+    },
+    {
+      "_id": "102340123844043046",
+      "appName": "DDDD",
+      "availableSlot": [1,2,3,4,5],
+      "email": ["email@email.com"],
+      "max": 5,
+      "phone": ["555-555-5555"],
+      "prefix": 104
+    }
+  ]
+}

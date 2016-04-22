@@ -4,7 +4,7 @@ angular.module('messageFactoryApp')
   /**
    * @ngdoc Service
    * @name MFAPIService
-   * @description MFAPIService contains api calls for item search, full item detail, and full po detail
+   * @description MFAPIService contains api calls for message retrieval and creation
    */
   .service('MFAPIService', ['$q', '$http', 'MFFactory', 'config_backend', function($q, $http, MFFactory, config_backend) {
     return {
@@ -15,7 +15,7 @@ angular.module('messageFactoryApp')
        * @param number
        * @param params
        * @returns {Function|promise}
-       * @description Main method to retrieve all items
+       * @description Main method to retrieve all Messages
        */
       getMessages: function(start, number, params) {
         var deferred = $q.defer();
@@ -41,7 +41,9 @@ angular.module('messageFactoryApp')
         }
         if (start) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "pageNumber=" + start; }
         if (number) { queryStringData += ((queryStringData.length !== 0) ? "&" : "") + "perPage=" + 30; }
-        console.log("queryStringData, params: ", queryStringData, params);
+
+        console.log("getMessages(); queryStringData, params: ", queryStringData, params);
+
         var req = {
           method: 'GET',
           url: config_backend.base_url + config_backend.mf_api + "?" + queryStringData
@@ -49,7 +51,6 @@ angular.module('messageFactoryApp')
 
         $http(req).success(function(result) {
           var data = result.results;
-          //var currentPage = result.currentPage;
           var totalPages = result.totalPages;
           var messages = [];
           for (var i = 0; i < data.length; i ++) {
@@ -75,7 +76,7 @@ angular.module('messageFactoryApp')
        * @name getAppNames
        * @memberof MFAPIService
        * @returns {Function|promise}
-       * @description Main method to retrieve all available app names
+       * @description Method to retrieve all available app names
        */
       getAppNames: function() {
         var deferred = $q.defer();
@@ -104,7 +105,7 @@ angular.module('messageFactoryApp')
        * @name getLanguages
        * @memberof MFAPIService
        * @returns {Function|promise}
-       * @description Main method to retrieve all available languages
+       * @description Method to retrieve all available languages
        */
       getLanguages: function() {
         var deferred = $q.defer();
@@ -131,26 +132,9 @@ angular.module('messageFactoryApp')
       },
 
       /**
-       * @name exportExcel
-       * @memberof MFAPIService
-       * @param appName
-       * @returns {Function|promise}
-       * @description Opens url in new window which should download the txt file to be opened in excel
-       */
-      exportExcel: function(appName) {
-        console.log("adding appName to queryString: ",appName);
-
-        var queryStringData = "appName=" + appName;
-        window.open(config_backend.base_url + config_backend.mf_admin_export + "?" + queryStringData);
-
-      },
-
-      /**
        * @name createMessages
        * @memberof MFAPIService
-       * @param start
-       * @param number
-       * @param params
+       * @param messages
        * @returns {Function|promise}
        * @description Method to create 1 or many new messages
        * If creating with multiple language messages, do something like:
@@ -321,9 +305,26 @@ angular.module('messageFactoryApp')
         });
 
         return deferred.promise;
+      },
+
+      /**
+       * @name exportExcel
+       * @memberof MFAPIService
+       * @param appName
+       * @returns {Function|promise}
+       * @description Opens url in new window which should download the txt file to be opened in excel
+       */
+      exportExcel: function(appName) {
+        console.log("adding appName to queryString: ",appName);
+
+        var queryStringData = "appName=" + appName;
+        window.open(config_backend.base_url + config_backend.mf_admin_export + "?" + queryStringData);
+
       }
+
     };
   }])
+  // Interceptor can be enabled to delay API calls artificially for testing
   //.factory('apiInterceptor', ['$q', '$timeout', function($q, $timeout) {
   //  var apiInterceptor = {
   //    "response": function(response) {
@@ -361,7 +362,7 @@ angular.module('messageFactoryApp')
   /**
    * @ngdoc Factory
    * @name ItemDataService
-   * @description ItemDataService for getting and setting purchase order data
+   * @description ItemDataService for getting and setting data for use between pages
    */
   .factory('ItemDataService', function() {
     var poData = {};

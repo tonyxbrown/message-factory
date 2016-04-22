@@ -49,9 +49,7 @@ angular.module('messageFactoryApp')
     /**
      * @name SearchCtrl.selectRow
      * @param row_po
-     * @description used on click of a table row, navigates to detail page
-     * Search page only navigates to a root detail page instead of a detail page
-     * as subview within main
+     * @description used on click of a table row, opens an edit modal
      */
     $scope.selectRow = function(row) {
       console.log("Message " + row + " selected. Go to edit modal.",row);
