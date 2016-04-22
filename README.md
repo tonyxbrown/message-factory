@@ -17,9 +17,9 @@ This is an Angular 1.x project that reads/displays and updates data. It uses som
 
 ## Build & development
 
-Run 'npm install'
+Run `npm install`
 
-Run 'bower install'
+Run `bower install`
 
 Run `grunt serve`
 
