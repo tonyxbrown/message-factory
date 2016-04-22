@@ -1,12 +1,24 @@
 # message-factory
 
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.12.1.
+This is an Angular 1.x project that reads/displays and updates data. It uses some of the following features:
+- angular-smart-table
+- routing (angular-ui-router)
+- services and factories
+- example of configuration
+- filters
+- LESS
+- bootstrap
+- Grunt and npm/node and bower
+- Karma for testing, karma-coverage for coverage reporting
+- jshint
+- angular-jsdoc
 
 ## Build & development
 
-Run `grunt` for building and `grunt serve` for preview.
+Run `grunt serve`
 
 ## Testing
 
 Running `grunt test` will run the unit tests with karma.
+
+![message factory search](message-factory-screenshot.png)
