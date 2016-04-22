@@ -153,6 +153,7 @@ angular
     };
 
   })
+  // Enable this Interceptor here and in MFData.js to artificially delay API calls for testing
   //.config(['$httpProvider', function($httpProvider) {
   //  $httpProvider.interceptors.push('apiInterceptor');
   //}])

@@ -96,7 +96,7 @@ angular.module('messageFactoryApp')
      * @name callServer
      * @memberof SearchCtrl
      * @param tableState
-     * @description makes request to server using PODataModel object, called each time table is updated
+     * @description makes request to server, called each time table is updated
      * with search or sort queries
      */
     this.callServer = function callServer(tableState) {
@@ -202,9 +202,7 @@ angular.module('messageFactoryApp')
     /**
      * @name SearchCtrl.selectRow
      * @param row_po
-     * @description used on click of a table row, navigates to detail page
-     * Search page only navigates to a root detail page instead of a detail page
-     * as subview within main
+     * @description used on click of a table row, will open an edit modal
      */
     $scope.selectRow = function(row) {
       console.log("Message " + row + " selected. Go to edit modal.",row);
@@ -219,36 +217,19 @@ angular.module('messageFactoryApp')
       $scope.currentRow = row;
       $('#editModal').modal('show');
     };
-
-    /**
-     * @name SearchCtrl.getRowMax
-     * @returns {number}
-     * @description get max rows per page, based on height of browser window
-     */
-    $scope.getRowMax = function() {
-      var h = $window.innerHeight;
-      var max = config_ui.num_rows_height_trigger;
-      var a = config_ui.num_rows_desktop;
-      var b = config_ui.num_rows_tablet;
-
-      if (h > max) { return a; }
-      return b;
+    $scope.closeModal = function() {
+      $('#editModal').modal('hide');
     };
-
-    $scope.numPerPage = $scope.getRowMax();
 
     $scope.additionalLanguages = [];
     $scope.modalMessages = {};
     $scope.modalLanguages = {};
+
     $scope.addAnotherLanguage = function() {
       console.log("search.js - addAnotherLanguage()");
       var lang_id = $scope.additionalLanguages.length + 1;
       $scope.additionalLanguages.push(lang_id);
       return lang_id;
-    };
-
-    $scope.closeModal = function() {
-      $('#editModal').modal('hide');
     };
 
     $scope.saveUpdate = function() {
