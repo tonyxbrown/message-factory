@@ -1,5 +1,7 @@
 # message-factory
 
+![message factory search](message-factory-screenshot.png)
+
 This is an Angular 1.x project that reads/displays and updates data. It uses some of the following features:
 - angular-smart-table
 - routing (angular-ui-router)
@@ -20,5 +22,3 @@ Run `grunt serve`
 ## Testing
 
 Running `grunt test` will run the unit tests with karma.
-
-![message factory search](message-factory-screenshot.png)
