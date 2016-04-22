@@ -30,22 +30,22 @@ angular
     'base_url': window.configOptions.base_url,
 
     // Canned Data
-    //'mf_api': 'all_messages.json',
-    //'mf_admin_api': 'success.json',
-    //'mf_appnames_api': 'all_app_names.json',
-    //'mf_languages_api': 'all_languages.json'
+    'mf_api': 'all_messages.json',
+    'mf_admin_api': 'success.json',
+    'mf_appnames_api': 'all_app_names.json',
+    'mf_languages_api': 'all_languages.json'
 
     // Real API
-    'mf_api': 'mf',
-    'mf_findallmessage_api': 'admin/findAllMessage',
-    'mf_admin_createmessages_api': 'admin/createMessages',
-    'mf_admin_editmessage_api': 'admin/updateMSG',
-    'mf_admin_editapp_api': 'admin/updateApp',
-    'mf_admin_createapp_api': 'admin/createApp',
-    'mf_appnames_api': 'admin/findAllApp',
-    'mf_languages_api': 'admin/findAllLanguage',
-    'mf_admin_delete_api': 'admin/deleteMSG',
-    'mf_admin_export': 'admin/export'
+    //'mf_api': 'mf',
+    //'mf_findallmessage_api': 'admin/findAllMessage',
+    //'mf_admin_createmessages_api': 'admin/createMessages',
+    //'mf_admin_editmessage_api': 'admin/updateMSG',
+    //'mf_admin_editapp_api': 'admin/updateApp',
+    //'mf_admin_createapp_api': 'admin/createApp',
+    //'mf_appnames_api': 'admin/findAllApp',
+    //'mf_languages_api': 'admin/findAllLanguage',
+    //'mf_admin_delete_api': 'admin/deleteMSG',
+    //'mf_admin_export': 'admin/export'
   })
 /**
  * @ngdoc Filter
