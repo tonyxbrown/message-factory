@@ -27,14 +27,15 @@ angular
     'loglevel': window.configOptions.loglevel
   })
   .constant('config_backend', {
-    //'base_url': 'canned_data/',
+    'base_url': window.configOptions.base_url,
+
+    // Canned Data
     //'mf_api': 'all_messages.json',
     //'mf_admin_api': 'success.json',
     //'mf_appnames_api': 'all_app_names.json',
     //'mf_languages_api': 'all_languages.json'
 
-    'base_url': window.configOptions.base_url,
-    //'mf_api': 'admin/findAllMessage',
+    // Real API
     'mf_api': 'mf',
     'mf_findallmessage_api': 'admin/findAllMessage',
     'mf_admin_createmessages_api': 'admin/createMessages',
